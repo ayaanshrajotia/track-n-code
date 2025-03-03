@@ -10,7 +10,7 @@ import {
 } from "@/app/components/ui/animated-modal";
 import { BentoGrid } from "@/app/components/ui/bento-grid";
 import { inventories } from "@/libs/utils";
-import { NotebookPen, Plus, SearchIcon } from "lucide-react";
+import { SearchIcon } from "lucide-react";
 
 export default function Inventory() {
     return (

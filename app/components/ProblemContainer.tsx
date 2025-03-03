@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDownCircle, ExternalLink } from "lucide-react";
-import { GlowingEffect } from "./ui/glowing-effect";
 import { BentoGrid, BentoGridItem } from "./ui/bento-grid";
 import InfiniteScroll from "./InfiniteScroll";
 import { ProblemContainerType } from "@/types/types";

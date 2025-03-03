@@ -4,8 +4,8 @@ import Header from "@/app/components/Header";
 import { ProblemContainer } from "@/app/components/ProblemContainer";
 import { SortOption } from "@/app/components/SortOption";
 import { problems } from "@/libs/utils";
-import { NotebookPen, Plus, SearchIcon } from "lucide-react";
-import React, { useState } from "react";
+import { SearchIcon } from "lucide-react";
+import { useState } from "react";
 
 const filters = [
     {

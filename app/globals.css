@@ -1,21 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+    font-family: "DM Sans", sans-serif;
+}
+
+.public-background-gradient {
+    background-color: #ffffff;
+    opacity: 1;
+    background-image: linear-gradient(
+            #fbfbfb 1.4000000000000001px,
+            transparent 1.4000000000000001px
+        ),
+        linear-gradient(
+            to right,
+            #fbfbfb 1.4000000000000001px,
+            #ffffff 1.4000000000000001px
+        );
+    background-size: 28px 28px;
+}
+
+.scroll {
+    position: relative;
+    display: flex;
+    width: 850px;
+    overflow: hidden;
+    border-radius: 24px;
+}
+
+.scroll div {
+    white-space: nowrap;
+    animation: scroll var(--time) linear infinite;
+    animation-delay: calc(var(--time) * -1);
+}
+
+.scroll div:nth-child(2) {
+    animation: scroll2 var(--time) linear infinite;
+    animation-delay: calc(var(--time) / -2);
+}
+
+.scroll:hover div,
+.scroll:hover div:nth-child(2) {
+    animation-play-state: paused;
+}
+
+@keyframes scroll {
+    0% {
+        transform: translateX(100%);
+    }
+
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+@keyframes scroll2 {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-200%);
+    }
+}
+
+.scroll div span {
+    display: inline-flex;
 }

@@ -24,7 +24,7 @@ export default function InventoryContainer({
             />
             <span className="text-sm opacity-70 mb-2">{createdAt}</span>
             <div className="flex flex-col">
-                <h1 className="font-semibold text-xl">{title}</h1>
+                <h1 className="font-semibold text-2xl">{title}</h1>
                 <p className="text-sm opacity-70">{description}</p>
             </div>
             <div className="w-full h-[1px] bg-black opacity-10 my-4"></div>

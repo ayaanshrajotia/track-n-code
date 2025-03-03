@@ -18,11 +18,11 @@ export default function Inventory() {
             <Header>Inventory</Header>
             <div className="flex flex-col gap-6">
                 <div className="flex justify-between items-center">
-                    <div className="bg-white border p-5 py-3 rounded-[24px] flex gap-4 w-[350px]">
+                    <div className="bg-white border p-5 py-3 rounded-[24px] flex gap-4 w-[350px] focus-within:border-tnc-dark-gray transition-all">
                         <input
                             type="text"
                             placeholder="Search for inventories"
-                            className="bg-transparent outline-none w-full placeholder:text-stone-400"
+                            className="bg-transparent outline-none w-full placeholder:text-stone-400 "
                         />
                         <SearchIcon className="" strokeWidth={2} width={28} />
                     </div>
@@ -81,7 +81,7 @@ export default function Inventory() {
                     </Modal>
                 </div>
                 <div className="w-full">
-                    <BentoGrid className="grid-cols-3">
+                    <BentoGrid className="grid-cols-3 gap-4">
                         {inventories.map((inventory) => (
                             <InventoryContainer
                                 key={inventory.id}

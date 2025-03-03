@@ -26,6 +26,7 @@ export default {
             },
             fontFamily: {
                 "dm-sans": ["DM Sans", "sans-serif"],
+                inter: ["Inter", "sans-serif"],
             },
         },
     },
@@ -33,6 +34,7 @@ export default {
 } satisfies Config;
 
 // This plugin adds each Tailwind color as a global CSS variable, e.g. var(--gray-200).
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function addVariablesForColors({ addBase, theme }: any) {
     const allColors = flattenColorPalette(theme("colors"));
     const newVars = Object.fromEntries(

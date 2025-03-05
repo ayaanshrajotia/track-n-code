@@ -42,28 +42,30 @@ export default function Inventory() {
                                 </h4>
                                 <div className="flex flex-col gap-5">
                                     <div className="flex flex-col gap-1">
-                                        <label
+                                        {/* <label
                                             htmlFor="title"
                                             className="text-xs font-medium uppercase ml-1"
                                         >
                                             Title
-                                        </label>
+                                        </label> */}
                                         <input
                                             id="title"
                                             type="text"
+                                            placeholder="Title"
                                             className="bg-tnc-gray h-12 outline-none px-4 py-2 rounded-[12px]"
                                         />
                                     </div>
                                     <div className="flex flex-col gap-1">
-                                        <label
+                                        {/* <label
                                             htmlFor="description"
                                             className="text-xs font-medium uppercase ml-1"
                                         >
                                             Description
-                                        </label>
+                                        </label> */}
                                         <input
                                             id="description"
                                             type="text"
+                                            placeholder="Description"
                                             className="bg-tnc-gray h-12 outline-none px-4 py-2 rounded-[12px]"
                                         />
                                     </div>
@@ -89,7 +91,7 @@ export default function Inventory() {
                                 title={inventory.title}
                                 description={inventory.description}
                                 slug={inventory.slug}
-                                problemCount={Math.floor(Math.random() * 100)}
+                                problemCount={inventory.problemCounts}
                                 createdAt={inventory.createdAt}
                             />
                         ))}

@@ -8,7 +8,7 @@ import { GlowingEffect } from "./ui/glowing-effect";
 export default function InventoryContainer({
     title,
     description,
-    problemCount,
+    // problemCount,
     slug,
     createdAt,
 }: InventoryType) {
@@ -33,7 +33,9 @@ export default function InventoryContainer({
                     <span className="text-xs opacity-70 uppercase">
                         Problems
                     </span>
-                    <span className="text-4xl font-medium">{problemCount}</span>
+                    <span className="text-4xl font-medium">
+                        {Math.floor(Math.random() * 100)}
+                    </span>
                 </div>
                 <Link
                     href={`/inventory/${slug}`}

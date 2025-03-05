@@ -31,7 +31,7 @@ const navItems = [
     },
     {
         title: "Logout",
-        href: "/logout",
+        href: "/welcome",
         icon: <LogOut className="h-full w-full dark:text-neutral-300" />,
     },
 ];

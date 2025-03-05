@@ -13,7 +13,7 @@ export default function InventoryContainer({
     createdAt,
 }: InventoryType) {
     return (
-        <BentoGridItem className="flex flex-col border transition-all">
+        <BentoGridItem className="flex flex-col border transition-all bg-white hover:bg-tnc-gray cursor-pointer">
             <GlowingEffect
                 borderWidth={1.5}
                 spread={64}

@@ -44,7 +44,7 @@ export default function Welcome() {
                 </Link>
                 <Link
                     href={"/login"}
-                    className="w-40 h-10 rounded-[20px] bg-transparent text-black border-2 border-black text-sm font-medium uppercase flex justify-center items-center"
+                    className="w-40 h-10 rounded-[20px] bg-white text-black border-2 border-black text-sm font-medium uppercase flex justify-center items-center"
                 >
                     Login
                 </Link>

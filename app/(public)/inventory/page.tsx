@@ -89,7 +89,7 @@ export default function Inventory() {
                                 title={inventory.title}
                                 description={inventory.description}
                                 slug={inventory.slug}
-                                problemCount={inventory.problemCounts}
+                                problemCount={Math.floor(Math.random() * 100)}
                                 createdAt={inventory.createdAt}
                             />
                         ))}

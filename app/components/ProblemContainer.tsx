@@ -25,14 +25,16 @@ export const ProblemContainer = ({
             <motion.header
                 initial={false}
                 onClick={() => setExpanded(isOpen ? false : id)}
-                className={`relative bg-white container-shadow rounded-[24px] p-4 py-5 cursor-pointer border-[1.5px] transition-all duration-300 ${
-                    isOpen ? "border-tnc-dark-gray border-[1.5px]" : ""
+                className={`relative  container-shadow rounded-[24px] p-4 py-5 cursor-pointer border-[1.5px] transition-all duration-300 hover:bg-tnc-gray ${
+                    isOpen
+                        ? "border-tnc-dark-gray border-[1.5px] bg-tnc-gray"
+                        : "bg-white"
                 }`}
             >
                 <div className="flex items-center gap-4">
                     <div className="flex-1">
                         <Link
-                            className="font-bold hover:bg-tnc-signature transition-all py-1 hover:px-2"
+                            className="font-semibold hover:bg-tnc-orange hover:text-white transition-all rounded-[24px] py-1 hover:px-4"
                             href={`/problems/${slug}`}
                         >
                             {title}

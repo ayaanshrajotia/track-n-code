@@ -36,9 +36,12 @@ export default function page() {
                             Forgot password?
                         </Link>
                     </div>
-                    <button className="bg-tnc-orange rounded-[24px] text-white py-3 px-4 font-semibold">
+                    <Link
+                        className="bg-tnc-orange rounded-[24px] text-white py-3 px-4 font-semibold flex justify-center items-center"
+                        href={"/dashboard"}
+                    >
                         Log in
-                    </button>
+                    </Link>
                     <div className="relative w-full h-[1px] bg-stone-300 my-3">
                         <span className="absolute bg-white -translate-x-1/2 left-1/2 top-1/2 -translate-y-1/2 text-sm px-5 text-stone-500">
                             or login with

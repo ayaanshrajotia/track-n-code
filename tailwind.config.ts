@@ -19,7 +19,7 @@ export default {
                 "tnc-dark-gray": "#989898",
                 // "tnc-signature": "#caec46",
                 "tnc-signature": "#d7fc68",
-                "tnc-orange": "#F15428",
+                "tnc-orange": "#f36740",
                 "tnc-black": "#212121",
                 background: "var(--background)",
                 foreground: "var(--foreground)",

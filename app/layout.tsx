@@ -1,10 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { DM_Sans } from "next/font/google";
-
-const dm_sans = DM_Sans({
-    weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
-});
 
 export const metadata: Metadata = {
     title: "Track n Code",
@@ -17,7 +12,7 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en" className={dm_sans.className}>
+        <html lang="en">
             <body className={`relative min-h-screen h-full w-full`}>
                 {children}
             </body>

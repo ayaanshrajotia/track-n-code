@@ -1,3 +1,5 @@
+"use client"
+
 import { FilterOption } from "@/app/components/FilterOption";
 import Header from "@/app/components/Header";
 import { ProblemContainer } from "@/app/components/containers/ProblemContainer";

@@ -1,9 +1,9 @@
 import { InventoryType } from "@/types/types";
 import React from "react";
-import { BentoGridItem } from "./ui/bento-grid";
+import { BentoGridItem } from "../ui/bento-grid";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { GlowingEffect } from "./ui/glowing-effect";
+import { GlowingEffect } from "../ui/glowing-effect";
 
 export default function InventoryContainer({
     title,

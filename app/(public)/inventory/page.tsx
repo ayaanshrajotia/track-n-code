@@ -1,6 +1,6 @@
 "use client";
 import Header from "@/app/components/Header";
-import InventoryContainer from "@/app/components/InventoryContainer";
+import InventoryContainer from "@/app/components/containers/InventoryContainer";
 import {
     Modal,
     ModalBody,

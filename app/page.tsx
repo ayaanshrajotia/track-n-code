@@ -1,19 +1,7 @@
-"use client";
-
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { redirect } from "next/navigation";
 
 export default function Page() {
-    const router = useRouter();
+    redirect("/dashboard"); // Redirects on the server before rendering
 
-    // Redirect to "/home" when the component mounts
-    useEffect(() => {
-        router.push("/dashboard");
-    }, [router]);
-
-    return (
-        <div>
-            <h1>Track n Code</h1>
-        </div>
-    );
+    return null; // No need to render anything
 }

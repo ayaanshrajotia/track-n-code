@@ -1,5 +1,4 @@
-"use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
     ChartNoAxesColumnIncreasing,
     House,
@@ -37,19 +36,6 @@ const navItems = [
 ];
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-    const [scrolled, setScrolled] = useState(false);
-
-    useEffect(() => {
-        const handleScroll = () => {
-            console.log(window.scrollY);
-            setScrolled(window.scrollY > 100);
-        };
-
-        window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
-    console.log("scrolled", scrolled);
-
     return (
         <main className="public-background-gradient">
             <div className="relative min-h-screen max-w-screen-xl mx-auto px-4 py-5">

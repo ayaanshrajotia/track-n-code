@@ -1,7 +1,6 @@
-"use client";
 import { FilterOption } from "@/app/components/FilterOption";
 import Header from "@/app/components/Header";
-import { ProblemContainer } from "@/app/components/ProblemContainer";
+import { ProblemContainer } from "@/app/components/containers/ProblemContainer";
 import { SortOption } from "@/app/components/SortOption";
 import { problems } from "@/libs/utils";
 import { SearchIcon } from "lucide-react";

@@ -1,5 +1,3 @@
-"use client";
-
 import Header from "@/app/components/Header";
 import LineGraph from "@/app/components/Line";
 import { BentoGrid, BentoGridItem } from "@/app/components/ui/bento-grid";

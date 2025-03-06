@@ -1,0 +1,15 @@
+codeforces: document.querySelector(".userbox ul span").innerText
+geeksforgeeks: document.querySelectorAll('[class^="scoreCard_head_left--score"]')[2].innerText
+codechef: document.querySelector(".rating-number").innerText
+atcoder: document.querySelectorAll(".dl-table")[1].querySelector("span").innerText
+
+leetcode: {
+    url: "https://leetcode.com/graphql"
+    request: {
+        "query": "\n    query userContestRankingInfo($username: String!) {\n  userContestRanking(username: $username) {\n    attendedContestsCount\n    rating\n    globalRanking\n    totalParticipants\n    topPercentage\n    badge {\n      name\n    }\n  }\n}\n    ",
+        "variables": {
+            "username": "Pulkit95700"
+        },
+        "operationName": "userContestRankingInfo"
+    }
+}

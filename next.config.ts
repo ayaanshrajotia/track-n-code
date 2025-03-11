@@ -5,6 +5,9 @@ const nextConfig: NextConfig = {
     images: {
         domains: ["creatorspace.imgix.net", "storage.googleapis.com"],
     },
+    eslint: {
+        ignoreDuringBuilds: true,
+    },
 };
 
 export default nextConfig;

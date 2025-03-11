@@ -3,6 +3,7 @@
 import React, { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { signOut } from "next-auth/react";
 
 export function SlideTabs({
     navLinks,
@@ -15,7 +16,10 @@ export function SlideTabs({
         opacity: 0,
     });
 
-    console.log(navLinks);
+    const handleLogout = async () => {
+        const res = await signOut({ redirect: true, callbackUrl: "/" });
+        console.log(res);
+    };
     return (
         <ul
             onMouseLeave={() => {
@@ -26,11 +30,20 @@ export function SlideTabs({
             }}
             className="relative mx-auto flex w-fit rounded-full bg-tnc-gray p-2"
         >
-            {navLinks.map((navLink, index) => (
+            {navLinks.slice(0, 3).map((navLink, index) => (
                 <Link href={navLink.href} key={index}>
                     <Tab setPosition={setPosition}>{navLink.title}</Tab>
                 </Link>
             ))}
+            {
+                <Tab
+                    setPosition={setPosition}
+                    key="logout"
+                    onClick={handleLogout}
+                >
+                    Logout
+                </Tab>
+            }
 
             <Cursor position={position} />
         </ul>
@@ -40,11 +53,13 @@ export function SlideTabs({
 function Tab({
     children,
     setPosition,
+    onClick,
 }: {
     children: React.ReactNode;
     setPosition: React.Dispatch<
         React.SetStateAction<{ left: number; width: number; opacity: number }>
     >;
+    onClick?: () => void;
 }) {
     const ref = useRef(null);
 
@@ -65,6 +80,7 @@ function Tab({
                 });
             }}
             className="relative z-10 block cursor-pointer px-4 py-2 text-xs uppercase text-white mix-blend-difference font-medium"
+            onClick={onClick}
         >
             {children}
         </li>

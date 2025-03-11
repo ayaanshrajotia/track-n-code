@@ -2,25 +2,17 @@
 "use client";
 
 import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { BackgroundLines } from "@/app/components/ui/background-lines";
 import Image from "next/image";
 import Link from "next/link";
 import toast from "react-hot-toast";
-import axios from "axios";
-import { z } from "zod";
-import { useRouter } from "next/navigation";
 
-export default function SignUpPage() {
+export default function SignInPage() {
     const router = useRouter();
-    const [userDetails, setUserDetails] = useState({
-        full_name: "",
-        username: "",
-        email: "",
-        password: "",
-    });
-
-    const signUpSchema = z.object({});
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
 
     const handleGithubSignIn = async () => {
         try {
@@ -44,92 +36,77 @@ export default function SignUpPage() {
         }
     };
 
-    const handleCredentialsSignUp = async (e: any) => {
-        e.preventDefault();
-
-        const result = signUpSchema.safeParse(userDetails);
-        if (!result.success) {
-            toast.error(result.error.errors[0].message);
-            return;
-        }
-
+    const handleCredentialsSignIn = async () => {
         try {
-            await axios.post("/api/auth/signup", userDetails);
-            toast.success("Account created!");
-            router.push("/signin");
+            const res = await signIn("credentials", {
+                email,
+                password,
+                redirect: false,
+            });
+
+            if (res?.error) {
+                throw new Error(res.error);
+            }
+
+            router.push("/dashboard");
         } catch (error: any) {
-            toast.error(error.response?.data?.error || "Signup failed.");
+            console.log(error);
+            toast.error(error.message);
         }
     };
 
     return (
-        <div className="public-background-gradient min-h-screen flex items-center justify-center px-4 sm:px-0">
-            <div className="z-20 w-full h-screen flex flex-col md:flex-row justify-center overflow-hidden">
+        <div className="public-background-gradient min-h-screen flex items-center justify-center">
+            <div className="z-20 w-full min-h-screen flex flex-col md:flex-row justify-center overflow-hidden">
                 {/* Left side - Form */}
                 <BackgroundLines className="relative w-full md:w-1/2 flex flex-col justify-center items-center p-6 px-8">
                     <div className="z-20 max-w-[500px] w-full flex flex-col gap-3">
                         <h1 className="text-4xl font-bold text-center mb-3">
-                            Sign Up
+                            Sign In
                         </h1>
                         <form className="flex flex-col gap-5">
                             <input
                                 type="text"
-                                placeholder="Name"
-                                className="bg-tnc-gray rounded-[24px] px-5 py-3 outline-none text-sm sm:text-base"
-                                onChange={(e) =>
-                                    setUserDetails({
-                                        ...userDetails,
-                                        full_name: e.target.value,
-                                    })
-                                }
-                                value={userDetails.full_name}
-                            />
-                            <input
-                                type="text"
-                                placeholder="Username"
-                                className="bg-tnc-gray rounded-[24px] px-5 py-3 outline-none text-sm sm:text-base"
-                                onChange={(e) =>
-                                    setUserDetails({
-                                        ...userDetails,
-                                        username: e.target.value,
-                                    })
-                                }
-                                value={userDetails.username}
-                            />
-                            <input
-                                type="text"
                                 placeholder="Email"
                                 className="bg-tnc-gray rounded-[24px] px-5 py-3 outline-none text-sm sm:text-base"
-                                onChange={(e) =>
-                                    setUserDetails({
-                                        ...userDetails,
-                                        email: e.target.value,
-                                    })
-                                }
-                                value={userDetails.email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                value={email}
                             />
                             <input
                                 type="password"
                                 placeholder="Password"
-                                className="bg-tnc-gray rounded-[24px] px-5 py-3 outline-none text-sm sm:text-base"
-                                onChange={(e) =>
-                                    setUserDetails({
-                                        ...userDetails,
-                                        password: e.target.value,
-                                    })
-                                }
-                                value={userDetails.password}
+                                className="bg-tnc-gray rounded-[24px] px-5 py-3 text-sm sm:text-base outline-none"
+                                onChange={(e) => setPassword(e.target.value)}
+                                value={password}
                             />
+                            <div className="flex justify-between items-center text-xs sm:text-sm">
+                                <div className="flex items-center gap-2">
+                                    <input
+                                        type="checkbox"
+                                        id="remember"
+                                        className="rounded-md"
+                                    />
+                                    <label htmlFor="remember">
+                                        Remember me
+                                    </label>
+                                </div>
+                                <Link
+                                    href="/forgot-password"
+                                    className="text-stone-600 hover:underline"
+                                >
+                                    Forgot password?
+                                </Link>
+                            </div>
                             <button
                                 className="bg-tnc-orange hover:bg-orange-600 transition-all text-white rounded-[24px] py-3 px-4 font-semibold flex justify-center items-center text-sm sm:text-base"
                                 type="button"
-                                onClick={handleCredentialsSignUp}
+                                onClick={handleCredentialsSignIn}
                             >
-                                Create Account
+                                Sign in
                             </button>
                             <div className="relative w-full h-[1px] bg-stone-300 my-3">
                                 <span className="absolute bg-white -translate-x-1/2 left-1/2 top-1/2 -translate-y-1/2 text-xs sm:text-sm px-4 text-stone-500">
-                                    or log in with
+                                    or login with
                                 </span>
                             </div>
                             <button
@@ -164,18 +141,19 @@ export default function SignUpPage() {
                             </button>
                         </form>
                         <span className="text-xs sm:text-sm text-center mt-4">
-                            Already have an account?{" "}
+                            Don&apos;t have an account?{" "}
                             <Link
-                                href="/signin"
+                                href="/signup"
                                 className="text-tnc-orange hover:underline"
                             >
-                                Sign in
+                                Sign up now
                             </Link>
                         </span>
                     </div>
                 </BackgroundLines>
+
                 {/* Right side - SVG Image */}
-                <section className="w-full md:w-1/2 p-6 pl-0 hidden md:flex overflow-hidden">
+                <section className="w-full md:w-1/2 p-6 pl-0 overflow-hidden hidden md:flex">
                     <div className="bg-tnc-orange w-full h-full rounded-[24px]"></div>
                 </section>
             </div>

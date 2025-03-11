@@ -34,7 +34,8 @@ export default function InventoryContainer({
                         Problems
                     </span>
                     <span className="text-4xl font-medium">
-                        {Math.floor(Math.random() * 100)}
+                        {/* {Math.floor(Math.random() * 100)} */}
+                        123
                     </span>
                 </div>
                 <Link

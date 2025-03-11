@@ -2,7 +2,6 @@ import Header from "@/app/components/Header";
 import LineGraph from "@/app/components/Line";
 import { BentoGrid, BentoGridItem } from "@/app/components/ui/bento-grid";
 import Image from "next/image";
-import React from "react";
 
 type Platform = {
     id: number;
@@ -38,7 +37,7 @@ const platforms: Platform[] = [
     },
 ];
 
-export default function Dashboard() {
+export default async function Dashboard() {
     return (
         <div>
             <Header>Dashboard</Header>
@@ -113,6 +112,7 @@ export default function Dashboard() {
                                             alt=""
                                             className="absolute p-1.5"
                                             fill
+                                            sizes="9"
                                         />
                                     </div>
                                     <div>

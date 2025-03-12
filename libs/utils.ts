@@ -1,4 +1,4 @@
-import { Problem } from "@/types/types";
+import { Platform, Problem } from "@/types/types";
 import { ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -225,5 +225,38 @@ export const inventories = [
         slug: "string",
         problemCounts: 10,
         createdAt: "2021-10-10",
+    },
+];
+
+export const platforms: Platform[] = [
+    {
+        id: 1,
+        platform: "Leetcode",
+        username: "ayaanshrajotia",
+        imgSrc: "https://creatorspace.imgix.net/sites/favicons/aHR0cHM6Ly9sZWV0Y29kZS5jb20vZmF2aWNvbi5pY28=.ico?fm=png",
+    },
+    {
+        id: 2,
+        platform: "Codeforces",
+        username: "ayaanshrajotia",
+        imgSrc: "https://cdn.iconscout.com/icon/free/png-256/free-code-forces-logo-icon-download-in-svg-png-gif-file-formats--technology-social-media-vol-2-pack-logos-icons-2944796.png?f=webp&w=256",
+    },
+    {
+        id: 3,
+        platform: "Codechef",
+        username: "ayaanshrajotia",
+        imgSrc: "https://img.icons8.com/fluent/512/codechef.png",
+    },
+    {
+        id: 4,
+        platform: "GeeksforGeeks",
+        username: "ayaanshrajotia",
+        imgSrc: "https://upload.wikimedia.org/wikipedia/commons/e/eb/GeeksForGeeks_logo.png",
+    },
+    {
+        id: 5,
+        platform: "AtCoder",
+        username: "ayaanshrajotia",
+        imgSrc: "https://i.namu.wiki/i/oloBJdRd29lBIF-mdv1FjWucpE3tGPhudDBTvOBChAT3A5w9zDUYg51mvn6NNOwoHJZIwxkVyzeXQMhtLAcQOQ.webp",
     },
 ];

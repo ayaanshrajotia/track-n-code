@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { FilterOption } from "@/app/components/FilterOption";
 import Header from "@/app/components/Header";

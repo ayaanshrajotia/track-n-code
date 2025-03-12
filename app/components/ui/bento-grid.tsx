@@ -8,7 +8,7 @@ export const BentoGrid = ({
     children?: React.ReactNode;
 }) => {
     return (
-        <div className={cn("grid gap-3 auto-rows-min", className)}>
+        <div className={cn("grid gap-4 auto-rows-min", className)}>
             {children}
         </div>
     );
@@ -24,7 +24,7 @@ export const BentoGridItem = ({
     return (
         <div
             className={cn(
-                "relative rounded-[24px] transition duration-200 shadow-input dark:shadow-none p-4 px-5 bg-tnc-gray",
+                "box-shadow relative rounded-[28px] transition duration-200 shadow-input dark:shadow-none p-5 bg-tnc-gray",
                 className
             )}
         >

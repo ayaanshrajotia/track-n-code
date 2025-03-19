@@ -34,3 +34,10 @@ export type InventoryType = {
     slug: string;
     createdAt: string;
 };
+
+export type Platform = {
+    id: number;
+    platform: string;
+    username: string;
+    imgSrc: string;
+};

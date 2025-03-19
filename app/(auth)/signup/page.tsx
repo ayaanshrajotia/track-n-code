@@ -133,7 +133,7 @@ export default function SignUpPage() {
                                 </span>
                             </div>
                             <button
-                                className="border bg-white rounded-[24px] py-3 px-4 font-medium flex items-center justify-center gap-2 text-sm sm:text-base hover:bg-gray-100 transition-all"
+                                className="border bg-white rounded-[24px] py-3 px-4 font-medium flex items-center justify-center gap-2 text-sm sm:text-base hover:bg-tnc-gray transition-all"
                                 onClick={handleGithubSignIn}
                                 type="button"
                             >
@@ -148,7 +148,7 @@ export default function SignUpPage() {
                                 Github
                             </button>
                             <button
-                                className="border bg-white rounded-[24px] py-3 px-4 font-medium flex items-center justify-center gap-2 text-sm sm:text-base hover:bg-gray-100 transition-all"
+                                className="border bg-white rounded-[24px] py-3 px-4 font-medium flex items-center justify-center gap-2 text-sm sm:text-base hover:bg-tnc-gray transition-all"
                                 onClick={handleGoogleSignIn}
                                 type="button"
                             >

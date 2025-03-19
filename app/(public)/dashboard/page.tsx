@@ -72,14 +72,14 @@ export default async function Dashboard() {
                                 56
                             </span>
                         </BentoGridItem>
-                        <BentoGridItem className="col-span-4 flex flex-col justify-between gap-3">
+                        <BentoGridItem className="col-span-4 flex flex-col justify-between gap-3 border">
                             <h1 className="font-semibold">Easy</h1>
                             <span className="text-[48px] flex gap-2.5 items-center tracking-wide font-medium">
                                 {/* <Laugh className="w-9 h-9" strokeWidth={2} /> */}
                                 213
                             </span>
                         </BentoGridItem>
-                        <BentoGridItem className="col-span-4 flex flex-col justify-between">
+                        <BentoGridItem className="col-span-4 flex flex-col justify-between border">
                             <h1 className="font-semibold ">Medium</h1>
 
                             <span className="text-[48px] flex gap-2.5 items-center tracking-wide font-medium">
@@ -87,7 +87,7 @@ export default async function Dashboard() {
                                 56
                             </span>
                         </BentoGridItem>
-                        <BentoGridItem className="col-span-4 flex flex-col justify-between ">
+                        <BentoGridItem className="col-span-4 flex flex-col justify-between border">
                             <h1 className="font-semibold ">Hard</h1>
 
                             <span className="text-[48px] flex gap-2.5 items-center tracking-wide font-medium">
@@ -109,9 +109,9 @@ export default async function Dashboard() {
                             Enjoy the journey.
                         </BentoGridItem>
                     </BentoGrid>
-                    <BentoGrid className="w-[330px] grid-cols-1 gap-5">
+                    <BentoGrid className="w-[310px] grid-cols-1 gap-5">
                         {platforms.map((platform) => (
-                            <BentoGridItem key={platform.id} className="">
+                            <BentoGridItem key={platform.id} className="border">
                                 <div className={"w-full flex flex-col gap-4"}>
                                     <div className="flex gap-2 items-center">
                                         <div className="relative w-9 h-9 border-[1px] rounded-xl bg-white">

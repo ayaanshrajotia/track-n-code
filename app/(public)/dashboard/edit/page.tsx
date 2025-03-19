@@ -127,7 +127,7 @@ export default function EditDashboard() {
                         {platforms.map((platform) => (
                             <BentoGridItem
                                 key={platform.id}
-                                className="bg-tnc-gray p-4"
+                                className="bg-tnc-gray p-4 border"
                             >
                                 <div className="w-full flex flex-col gap-2">
                                     <div className="flex gap-2 items-center">

@@ -83,7 +83,7 @@ export default function Inventory() {
                     </Modal>
                 </div>
                 <div className="w-full">
-                    <BentoGrid className="grid-cols-3 gap-4">
+                    <BentoGrid className="grid-cols-3 gap-5">
                         {inventories.map((inventory) => (
                             <InventoryContainer
                                 key={inventory.id}

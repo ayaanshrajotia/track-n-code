@@ -3,7 +3,7 @@ import React from "react";
 import { BentoGridItem } from "../ui/bento-grid";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { GlowingEffect } from "../ui/glowing-effect";
+// import { GlowingEffect } from "../ui/glowing-effect";
 
 export default function InventoryContainer({
     title,
@@ -13,15 +13,15 @@ export default function InventoryContainer({
     createdAt,
 }: InventoryType) {
     return (
-        <BentoGridItem className="flex flex-col border transition-all bg-white hover:bg-tnc-gray cursor-pointer">
-            <GlowingEffect
+        <BentoGridItem className="flex flex-col transition-all bg-tnc-gray cursor-pointer">
+            {/* <GlowingEffect
                 borderWidth={1.5}
                 spread={64}
                 glow={true}
                 disabled={false}
                 proximity={64}
                 inactiveZone={0.01}
-            />
+            /> */}
             <span className="text-sm opacity-70 mb-2">{createdAt}</span>
             <div className="flex flex-col">
                 <h1 className="font-semibold text-2xl">{title}</h1>

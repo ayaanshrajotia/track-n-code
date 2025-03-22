@@ -15,7 +15,7 @@ export default function EditDashboard() {
     });
 
     // State to manage profile image
-    const [profileImage, setProfileImage] = useState("/images/ayaansh.jpg");
+    const [profileImage, setProfileImage] = useState("/images/ayaansh.png");
 
     // Handler for changing profile image
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,7 +38,7 @@ export default function EditDashboard() {
                                 <Image
                                     src={profileImage}
                                     alt="Profile"
-                                    layout="fill"
+                                    fill
                                     className="object-cover"
                                 />
                             </div>
@@ -51,7 +51,7 @@ export default function EditDashboard() {
                             />
                             <label
                                 htmlFor="profile-image"
-                                className="cursor-pointer flex items-center gap-2 bg-tnc-black text-white rounded-[12px] px-4 py-2 w-fit"
+                                className="cursor-pointer flex items-center gap-2 bg-tnc-black text-white rounded-[24px] px-4 py-2 w-fit"
                             >
                                 Upload <CircleArrowUp width={18} />
                             </label>
@@ -178,6 +178,9 @@ export default function EditDashboard() {
                         ))}
                     </BentoGrid>
                 </div>
+                <button className="cursor-pointer flex items-center gap-2 bg-tnc-orange text-white rounded-[24px] px-10 py-3 w-fit mx-auto">
+                    Save Profile
+                </button>
             </div>
         </div>
     );

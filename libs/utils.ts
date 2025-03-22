@@ -231,26 +231,26 @@ export const inventories = [
 export const platforms: Platform[] = [
     {
         id: 1,
-        platform: "Leetcode",
-        username: "ayaanshrajotia",
+        platform: "LeetCode",
+        username: "pulkit95700",
         imgSrc: "https://creatorspace.imgix.net/sites/favicons/aHR0cHM6Ly9sZWV0Y29kZS5jb20vZmF2aWNvbi5pY28=.ico?fm=png",
     },
     {
         id: 2,
         platform: "Codeforces",
-        username: "ayaanshrajotia",
+        username: "pulkit95700",
         imgSrc: "https://cdn.iconscout.com/icon/free/png-256/free-code-forces-logo-icon-download-in-svg-png-gif-file-formats--technology-social-media-vol-2-pack-logos-icons-2944796.png?f=webp&w=256",
     },
     {
         id: 3,
         platform: "Codechef",
-        username: "ayaanshrajotia",
+        username: "beyond_horizon",
         imgSrc: "https://img.icons8.com/fluent/512/codechef.png",
     },
     {
         id: 4,
         platform: "GeeksforGeeks",
-        username: "ayaanshrajotia",
+        username: "4umpkrdb0k9x8diu6i2whgro5bth02bfcqcp72wy",
         imgSrc: "https://upload.wikimedia.org/wikipedia/commons/e/eb/GeeksForGeeks_logo.png",
     },
     {

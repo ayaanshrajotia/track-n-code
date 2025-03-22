@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 
 export default function middleware(req: NextRequest) {
     // const { nextUrl } = req;
@@ -18,7 +18,7 @@ export default function middleware(req: NextRequest) {
     //     return NextResponse.redirect(new URL("/dashboard", req.url));
     // }
 
-    return NextResponse.next();
+    // return NextResponse.next();
 }
 
 export const config = {

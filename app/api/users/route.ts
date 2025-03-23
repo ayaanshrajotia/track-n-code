@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { conn_middleware } from "@/server/libs/conn_middleware";
+import { conn_middleware } from "@/server/middlewares/conn_middleware";
 import User from "@/server/models/User.model";
 
 // 🔹 GET: Fetch all users

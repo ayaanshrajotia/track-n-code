@@ -1,5 +1,5 @@
 "use client";
-import { cn } from "@/libs/utils";
+import { cn } from "@/utils/utils";
 import { motion } from "framer-motion";
 import React from "react";
 

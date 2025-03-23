@@ -9,7 +9,7 @@ import {
     ModalTrigger,
 } from "@/app/components/ui/animated-modal";
 import { BentoGrid } from "@/app/components/ui/bento-grid";
-import { inventories } from "@/libs/utils";
+import { inventories } from "@/utils/utils";
 import { SearchIcon } from "lucide-react";
 
 export default function Inventory() {

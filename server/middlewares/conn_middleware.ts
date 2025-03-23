@@ -9,6 +9,9 @@ export async function conn_middleware(handler: Function, req: NextRequest) {
     return handler(req); // Call the original handler
   } catch (error) {
     console.error(ConnectionConfig.CONN_ERR_MESSAGE, error);
-    return NextResponse.json({ message: "Database connection failed" }, { status: 500 });
+    return NextResponse.json(
+      { message: "Database connection failed" },
+      { status: 500 }
+    );
   }
 }

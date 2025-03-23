@@ -16,8 +16,6 @@ export default function EditDashboard() {
         username: "ayaanshrajotia",
     });
 
-    console.log(platforms);
-
     // State to manage profile image
     const [profileImage, setProfileImage] = useState("/images/ayaansh.png");
 

@@ -4,7 +4,7 @@ import { FilterOption } from "@/app/components/FilterOption";
 import Header from "@/app/components/Header";
 import { ProblemContainer } from "@/app/components/containers/ProblemContainer";
 import { SortOption } from "@/app/components/SortOption";
-import { problems } from "@/utils/utils";
+import { problems } from "@/app/utils/utils";
 import { SearchIcon } from "lucide-react";
 import { useState } from "react";
 import Link from "next/link";

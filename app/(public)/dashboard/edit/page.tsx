@@ -1,14 +1,39 @@
 "use client";
 import Header from "@/app/components/Header";
 import { BentoGrid, BentoGridItem } from "@/app/components/ui/bento-grid";
-import { platforms as initialPlatforms } from "@/utils/utils";
+import { platforms as initialPlatforms } from "@/app/utils/utils";
+import { getUserDashboardEdit } from "@/lib/features/user/userSlice";
+import { useAppDispatch } from "@/lib/hooks";
 import { CircleArrowUp, Pencil } from "lucide-react";
 import { Lock } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Switch from "react-switch";
 
+// {
+//     name: "Ayaansh Rajotia",
+//     username: "ayaanshrajotia",
+//     email: "ayaansh@gmail.com",
+//     profile_photo: "cloudinarylink",
+//     platforms: [
+//         {
+//             platform: "leetcode",
+//             username: "ayaansh",
+//             show: true,
+//         }
+//     ]
+// }
+
 export default function EditDashboard() {
+    const dispatch = useAppDispatch();
+
+    // const { full_name, email, username, profile_image, userLoading, error } =
+    //     useAppSelector((state) => state.user);
+
+    useEffect(() => {
+        dispatch(getUserDashboardEdit());
+    }, [dispatch]);
+
     const [platforms, setPlatforms] = useState(initialPlatforms);
     // State to manage user details
     const [userDetails, setUserDetails] = useState({
@@ -16,7 +41,7 @@ export default function EditDashboard() {
         username: "ayaanshrajotia",
     });
 
-    console.log(platforms);
+    console.log()
 
     // State to manage profile image
     const [profileImage, setProfileImage] = useState("/images/ayaansh.png");

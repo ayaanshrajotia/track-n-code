@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 declare module "next/server" {
   interface NextRequest {
     user?: unknown;
+    files?: unknown;
   }
 }
 

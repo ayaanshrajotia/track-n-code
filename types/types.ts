@@ -42,3 +42,10 @@ export type Platform = {
     imgSrc: string;
     show: boolean;
 };
+
+export type Rating = {
+    id: string;
+    platform: string;
+    rating?: number;
+    username: string;
+};

@@ -8,7 +8,7 @@ import { BentoGrid, BentoGridItem } from "@/app/components/ui/bento-grid";
 import { Pencil } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { platforms } from "@/utils/utils";
+import { platforms } from "@/app/utils/utils";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useAppSelector } from "@/lib/hooks";

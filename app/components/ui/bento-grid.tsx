@@ -1,4 +1,4 @@
-import { cn } from "@/utils/utils";
+import { cn } from "@/app/utils/utils";
 
 export const BentoGrid = ({
     className,

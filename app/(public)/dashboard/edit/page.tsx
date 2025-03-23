@@ -1,7 +1,7 @@
 "use client";
 import Header from "@/app/components/Header";
 import { BentoGrid, BentoGridItem } from "@/app/components/ui/bento-grid";
-import { platforms as initialPlatforms } from "@/libs/utils";
+import { platforms as initialPlatforms } from "@/utils/utils";
 import { CircleArrowUp, Pencil } from "lucide-react";
 import { Lock } from "lucide-react";
 import Image from "next/image";

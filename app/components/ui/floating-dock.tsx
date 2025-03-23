@@ -6,7 +6,7 @@
  * Mobile navbar is better positioned at bottom right.
  **/
 
-import { cn } from "@/libs/utils";
+import { cn } from "@/utils/utils";
 import {
     AnimatePresence,
     MotionValue,

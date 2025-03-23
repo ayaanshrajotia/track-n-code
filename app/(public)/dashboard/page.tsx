@@ -8,11 +8,15 @@ import { BentoGrid, BentoGridItem } from "@/app/components/ui/bento-grid";
 import { Pencil } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { platforms } from "@/libs/utils";
+import { platforms } from "@/utils/utils";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import { useAppSelector } from "@/lib/hooks";
 
 export default function Dashboard() {
+    const user = useAppSelector((state) => state.user);
+    console.log(user);
+
     const [ratings, setRatings] = useState<{ [key: string]: string }>({});
     const [loading, setLoading] = useState(true);
     console.log(ratings);
@@ -66,7 +70,9 @@ export default function Dashboard() {
                                     src="/images/ayaansh.png"
                                     alt=""
                                     className="absolute object-cover"
-                                    layout="fill"
+                                    fill
+                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                    priority
                                 />
                             </div>
                             <div className="flex flex-col justify-between h-full">

@@ -1,13 +1,48 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import axios from "axios";
 import Header from "@/app/components/Header";
 import LineGraph from "@/app/components/Line";
 import { BentoGrid, BentoGridItem } from "@/app/components/ui/bento-grid";
-import { platforms } from "@/libs/utils";
 import { Pencil } from "lucide-react";
-// import { Frown, Laugh, Meh } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { platforms } from "@/libs/utils";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
-export default async function Dashboard() {
+export default function Dashboard() {
+    const [ratings, setRatings] = useState<{ [key: string]: string }>({});
+    const [loading, setLoading] = useState(true);
+    console.log(ratings);
+
+    useEffect(() => {
+        async function fetchRatings() {
+            const platformRequests = platforms.map(async (platform) => {
+                try {
+                    const response = await axios.get(
+                        `/api/ratings?platform=${platform.platform}&username=${platform.username}`
+                    );
+                    return { [platform.id]: response.data.rating };
+                } catch (error) {
+                    console.error(`Error fetching ${platform.id}:`, error);
+                    return { [platform.id]: "N/A" };
+                }
+            });
+
+            const results = await Promise.all(platformRequests);
+            const ratingData = results.reduce(
+                (acc, curr) => ({ ...acc, ...curr }),
+                {}
+            );
+            setRatings(ratingData);
+            setLoading(false);
+        }
+
+        fetchRatings();
+    }, []);
+
     return (
         <div>
             <Header>Dashboard</Header>
@@ -25,15 +60,7 @@ export default async function Dashboard() {
                 </Link>
                 <div className="flex gap-4 leading-none">
                     <BentoGrid className="flex-grow grid-cols-12 gap-4">
-                        {/* <BentoGridItem className="col-span-3 relative w-full h-full overflow-hidden">
-                        <Image
-                        src="/images/ayaansh.jpg"
-                        alt=""
-                        className="object-cover"
-                            layout="fill"
-                        />
-                        </BentoGridItem> */}
-                        <BentoGridItem className="col-span-6 bg-tnc-black text-white flex items-center gap-5">
+                        <BentoGridItem className="h-[140px] col-span-6 bg-tnc-black text-white flex items-center gap-5">
                             <div className="relative w-24 h-24 rounded-full overflow-hidden">
                                 <Image
                                     src="/images/ayaansh.png"
@@ -42,13 +69,15 @@ export default async function Dashboard() {
                                     layout="fill"
                                 />
                             </div>
-                            <div className="flex flex-col">
-                                <h1 className="text-2xl font-medium leading-none">
-                                    Ayaansh Rajotia
-                                </h1>
-                                <p className="text-sm text-neutral-200">
-                                    ayaanshrajotia
-                                </p>
+                            <div className="flex flex-col justify-between h-full">
+                                <div>
+                                    <h1 className="text-2xl font-medium leading-none">
+                                        Ayaansh Rajotia
+                                    </h1>
+                                    <p className="text-sm text-neutral-200">
+                                        ayaanshrajotia
+                                    </p>
+                                </div>
                                 <span className="text-[44px] font-medium tracking-wide leading-none">
                                     100
                                 </span>
@@ -59,7 +88,6 @@ export default async function Dashboard() {
                                 Questions Solved
                             </h1>
                             <span className="text-[48px] flex gap-2.5 items-center tracking-wide font-medium leading-none">
-                                {/* <Meh className="w-9 h-9" strokeWidth={2} /> */}
                                 56
                             </span>
                         </BentoGridItem>
@@ -68,31 +96,7 @@ export default async function Dashboard() {
                                 Revision
                             </h1>
                             <span className="text-[48px] flex gap-2.5 items-center tracking-wide font-medium leading-none">
-                                {/* <Meh className="w-9 h-9" strokeWidth={2} /> */}
                                 56
-                            </span>
-                        </BentoGridItem>
-                        <BentoGridItem className="col-span-4 flex flex-col justify-between gap-3 border">
-                            <h1 className="font-semibold">Easy</h1>
-                            <span className="text-[48px] flex gap-2.5 items-center tracking-wide font-medium">
-                                {/* <Laugh className="w-9 h-9" strokeWidth={2} /> */}
-                                213
-                            </span>
-                        </BentoGridItem>
-                        <BentoGridItem className="col-span-4 flex flex-col justify-between border">
-                            <h1 className="font-semibold ">Medium</h1>
-
-                            <span className="text-[48px] flex gap-2.5 items-center tracking-wide font-medium">
-                                {/* <Meh className="w-9 h-9" strokeWidth={2} /> */}
-                                56
-                            </span>
-                        </BentoGridItem>
-                        <BentoGridItem className="col-span-4 flex flex-col justify-between border">
-                            <h1 className="font-semibold ">Hard</h1>
-
-                            <span className="text-[48px] flex gap-2.5 items-center tracking-wide font-medium">
-                                {/* <Frown className="w-9 h-9" strokeWidth={2} /> */}
-                                14
                             </span>
                         </BentoGridItem>
                         <BentoGridItem className="col-span-12 bg-tnc-black text-white">
@@ -109,36 +113,71 @@ export default async function Dashboard() {
                             Enjoy the journey.
                         </BentoGridItem>
                     </BentoGrid>
-                    <BentoGrid className="w-[310px] grid-cols-1 gap-5">
-                        {platforms.map((platform) => (
-                            <BentoGridItem key={platform.id} className="border">
-                                <div className={"w-full flex flex-col gap-4"}>
-                                    <div className="flex gap-2 items-center">
-                                        <div className="relative w-9 h-9 border-[1px] rounded-xl bg-white">
-                                            <Image
-                                                src={platform.imgSrc}
-                                                alt=""
-                                                className="absolute p-1.5"
-                                                fill
-                                                sizes="9"
-                                            />
+
+                    {loading ? (
+                        <div className="flex flex-col gap-4">
+                            <Skeleton
+                                width={310}
+                                height={140}
+                                borderRadius={24}
+                            />
+                            <Skeleton
+                                width={310}
+                                height={140}
+                                borderRadius={24}
+                            />
+                            <Skeleton
+                                width={310}
+                                height={140}
+                                borderRadius={24}
+                            />
+                            <Skeleton
+                                width={310}
+                                height={140}
+                                borderRadius={24}
+                            />
+                            <Skeleton
+                                width={310}
+                                height={140}
+                                borderRadius={24}
+                            />
+                        </div>
+                    ) : (
+                        <BentoGrid className="w-[310px] grid-cols-1 gap-4">
+                            {platforms.map((platform) => (
+                                <BentoGridItem
+                                    key={platform.id}
+                                    className="border h-[140px]"
+                                >
+                                    <div className="w-full h-full flex flex-col justify-between">
+                                        <div className="flex gap-2 items-center">
+                                            <div className="relative w-9 h-9 border-[1px] rounded-xl bg-white">
+                                                <Image
+                                                    src={platform.imgSrc}
+                                                    alt=""
+                                                    className="absolute p-1.5"
+                                                    fill
+                                                    sizes="9"
+                                                />
+                                            </div>
+                                            <div>
+                                                <h1 className="font-semibold">
+                                                    {platform.platform}
+                                                </h1>
+                                                <span className="text-sm truncate block max-w-[200px]">
+                                                    {platform.username}
+                                                </span>
+                                            </div>
                                         </div>
-                                        <div>
-                                            <h1 className="font-semibold">
-                                                {platform.platform}
-                                            </h1>
-                                            <span className="text-sm">
-                                                {platform.username}
-                                            </span>
+                                        <div className="text-4xl font-medium tracking-wide">
+                                            {ratings[platform.id] ||
+                                                "Loading..."}
                                         </div>
                                     </div>
-                                    <div className="text-4xl font-medium tracking-wide">
-                                        1421
-                                    </div>
-                                </div>
-                            </BentoGridItem>
-                        ))}
-                    </BentoGrid>
+                                </BentoGridItem>
+                            ))}
+                        </BentoGrid>
+                    )}
                 </div>
             </div>
         </div>

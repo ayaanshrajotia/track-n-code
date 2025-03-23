@@ -40,4 +40,5 @@ export type Platform = {
     platform: string;
     username: string;
     imgSrc: string;
+    show: boolean;
 };

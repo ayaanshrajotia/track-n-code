@@ -7,6 +7,7 @@ import { SortOption } from "@/app/components/SortOption";
 import { problems } from "@/libs/utils";
 import { SearchIcon } from "lucide-react";
 import { useState } from "react";
+import Link from "next/link";
 
 const filters = [
     {
@@ -81,14 +82,17 @@ export default function Problems() {
                             width={28}
                         />
                     </div>
-                    <div className="bg-tnc-orange text-white rounded-[24px] flex justify-between items-center px-5 py-3 cursor-pointer relative overflow-hidden group">
+                    <Link
+                        href={"/problems/add-problem"}
+                        className="bg-tnc-orange text-white rounded-[24px] flex justify-between items-center px-5 py-3 cursor-pointer relative overflow-hidden group"
+                    >
                         <span className="text-center transition-transform duration-500 uppercase text-sm font-semibold group-hover:translate-x-40">
                             Add Problem
                         </span>
                         <div className="absolute inset-0 flex items-center justify-center transition-transform duration-500 -translate-x-40 group-hover:translate-x-0 text-lg">
                             📒
                         </div>
-                    </div>
+                    </Link>
                 </div>
                 <div className="flex gap-6 justify-between">
                     <div className="w-[calc(100%-300px)] flex flex-col gap-3">

@@ -15,7 +15,7 @@ const companies = [
     "Salesforce",
 ];
 
-export default function InfiniteScroll() {
+export default function InfiniteScroll({ }: { className?: string }) {
     return (
         <div
             className="scroll"

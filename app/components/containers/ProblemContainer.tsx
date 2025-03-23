@@ -25,7 +25,7 @@ export const ProblemContainer = ({
             <motion.header
                 initial={false}
                 onClick={() => setExpanded(isOpen ? false : id)}
-                className={`relative  container-shadow rounded-[24px] p-4 py-5 cursor-pointer border-[1.5px] transition-all duration-300 hover:bg-tnc-gray ${
+                className={`relative container-shadow rounded-[24px] p-4 py-5 cursor-pointer border-[1.5px] transition-all duration-300 hover:bg-tnc-gray ${
                     isOpen
                         ? "border-tnc-dark-gray border-[1.5px] bg-tnc-gray"
                         : "bg-white"
@@ -123,7 +123,7 @@ export const ProblemContainer = ({
                                     <h1 className="font-medium mb-3">
                                         Companies
                                     </h1>
-                                    <InfiniteScroll />
+                                    <InfiniteScroll className="w-[850px]" />
                                 </BentoGridItem>
                             </BentoGrid>
                         </div>

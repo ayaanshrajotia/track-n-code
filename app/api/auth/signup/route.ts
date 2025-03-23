@@ -6,7 +6,6 @@ import MongoConnection from "@/server/db/MongoDB";
 export async function POST(req: NextRequest) {
     try {
         const { full_name, username, email, password } = await req.json();
-        console.log(full_name, username, email, password);
         await MongoConnection.connect();
 
         // Check if user already exists

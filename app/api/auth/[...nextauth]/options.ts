@@ -8,7 +8,7 @@ import UserModel from "@/server/models/User.model";
 import bcrypt from "bcryptjs";
 import toast from "react-hot-toast";
 
-export const options: NextAuthOptions = {
+export const authOptions: NextAuthOptions = {
     providers: [
         GithubProvider({
             clientId: process.env.GITHUB_ID as string,

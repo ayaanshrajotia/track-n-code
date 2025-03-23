@@ -1,18 +1,22 @@
 "use client";
 import Header from "@/app/components/Header";
 import { BentoGrid, BentoGridItem } from "@/app/components/ui/bento-grid";
-import { platforms } from "@/libs/utils";
+import { platforms as initialPlatforms } from "@/libs/utils";
 import { CircleArrowUp, Pencil } from "lucide-react";
 import { Lock } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
+import Switch from "react-switch";
 
 export default function EditDashboard() {
+    const [platforms, setPlatforms] = useState(initialPlatforms);
     // State to manage user details
     const [userDetails, setUserDetails] = useState({
         name: "Ayaansh Rajotia",
         username: "ayaanshrajotia",
     });
+
+    console.log(platforms);
 
     // State to manage profile image
     const [profileImage, setProfileImage] = useState("/images/ayaansh.png");
@@ -26,13 +30,23 @@ export default function EditDashboard() {
         }
     };
 
+    const handleToggle = (id: number) => {
+        setPlatforms((prevPlatforms) =>
+            prevPlatforms.map((platform) =>
+                platform.id === id
+                    ? { ...platform, show: !platform.show }
+                    : platform
+            )
+        );
+    };
+
     return (
         <div>
             <Header>Edit Dashboard</Header>
             <div className="flex flex-col gap-16 leading-none">
                 <div className="flex flex-col gap-6">
                     <h1 className="text-3xl font-semibold">Profile</h1>
-                    <div className="flex gap-10 h-[280px] w-full justify-center items-center">
+                    <div className="flex gap-12 h-[280px] w-full justify-center items-center">
                         <div className="flex flex-col items-center justify-between h-full">
                             <div className="relative w-[220px] h-[220px] overflow-hidden rounded-full border-2">
                                 <Image
@@ -119,6 +133,32 @@ export default function EditDashboard() {
                                 </div>
                             </BentoGridItem>
                         </div>
+                        <BentoGridItem className="bg-tnc-black text-white h-full rounded-[24px] p-5 pt-4 flex flex-col gap-3">
+                            <p className="text-sm text-neutral-200">Settings</p>
+                            <div className="flex flex-col justify-between h-full">
+                                {platforms.map((platform) => (
+                                    <div
+                                        key={platform.id}
+                                        className="flex justify-between items-center gap-14"
+                                    >
+                                        <span className="font-medium">
+                                            {platform.platform}
+                                        </span>
+                                        <Switch
+                                            checked={platform.show}
+                                            onChange={() =>
+                                                handleToggle(platform.id)
+                                            }
+                                            height={24}
+                                            width={48}
+                                            checkedIcon={false}
+                                            uncheckedIcon={false}
+                                            onColor="#f36740"
+                                        />
+                                    </div>
+                                ))}
+                            </div>
+                        </BentoGridItem>
                     </div>
                 </div>
                 <div className="flex flex-col gap-6">
@@ -127,7 +167,9 @@ export default function EditDashboard() {
                         {platforms.map((platform) => (
                             <BentoGridItem
                                 key={platform.id}
-                                className="bg-tnc-gray p-4 border"
+                                className={`bg-tnc-gray p-4 border  ${
+                                    platform.show ? "opacty-100" : "opacity-40"
+                                }`}
                             >
                                 <div className="w-full flex flex-col gap-2">
                                     <div className="flex gap-2 items-center">
@@ -169,9 +211,6 @@ export default function EditDashboard() {
                                                 />
                                             </div>
                                         </div>
-                                        <span className="text-4xl font-medium tracking-wide">
-                                            1421
-                                        </span>
                                     </div>
                                 </div>
                             </BentoGridItem>

@@ -1,3 +1,4 @@
+
 export type ProblemContainerType = {
     id: number;
     expanded: number | boolean;
@@ -44,8 +45,8 @@ export type Platform = {
 };
 
 export type Rating = {
-    id: string;
     platform: string;
     rating?: number;
     username: string;
+    show: boolean;
 };

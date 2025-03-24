@@ -9,6 +9,8 @@ const nextConfig: NextConfig = {
             "cdn.iconscout.com",
             "img.icons8.com",
             "i.namu.wiki",
+            "storage.googleapis.com",
+            "res.cloudinary.com",
         ],
     },
     eslint: {

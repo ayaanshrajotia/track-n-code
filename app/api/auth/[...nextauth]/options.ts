@@ -93,6 +93,47 @@ export const authOptions: NextAuthOptions = {
                         );
                         return false; // Instead of throwing an error
                     }
+
+                    // If the user exists but has an empty ratings array, update it
+                    if (
+                        !existingUser.ratings ||
+                        existingUser.ratings.length === 0
+                    ) {
+                        await UserModel.updateOne(
+                            { email: user.email },
+                            {
+                                $set: {
+                                    ratings: [
+                                        {
+                                            platform: "leetcode",
+                                            username: "",
+                                            show: false,
+                                        },
+                                        {
+                                            platform: "codechef",
+                                            username: "",
+                                            show: false,
+                                        },
+                                        {
+                                            platform: "codeforces",
+                                            username: "",
+                                            show: false,
+                                        },
+                                        {
+                                            platform: "geeksforgeeks",
+                                            username: "",
+                                            show: false,
+                                        },
+                                        {
+                                            platform: "atcoder",
+                                            username: "",
+                                            show: false,
+                                        },
+                                    ],
+                                },
+                            }
+                        );
+                    }
                 } else {
                     // Only create a new user for OAuth logins (GitHub/Google)
                     if (account?.provider !== "credentials") {
@@ -101,6 +142,33 @@ export const authOptions: NextAuthOptions = {
                             full_name: user.name,
                             username: user?.email?.split("@")[0],
                             provider: account?.provider, // Ensure provider is always set correctly
+                            ratings: [
+                                {
+                                    platform: "leetcode",
+                                    username: "",
+                                    show: false,
+                                },
+                                {
+                                    platform: "codechef",
+                                    username: "",
+                                    show: false,
+                                },
+                                {
+                                    platform: "codeforces",
+                                    username: "",
+                                    show: false,
+                                },
+                                {
+                                    platform: "geeksforgeeks",
+                                    username: "",
+                                    show: false,
+                                },
+                                {
+                                    platform: "atcoder",
+                                    username: "",
+                                    show: false,
+                                },
+                            ],
                         });
                     } else {
                         throw new Error(

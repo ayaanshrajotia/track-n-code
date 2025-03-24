@@ -8,10 +8,10 @@ import { BentoGrid, BentoGridItem } from "@/app/components/ui/bento-grid";
 import { Pencil } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { platforms } from "@/app/utils/utils";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useAppSelector } from "@/lib/hooks";
+import { ratingPlatforms } from "@/app/utils/utils";
 
 export default function Dashboard() {
     const user = useAppSelector((state) => state.user);
@@ -23,7 +23,7 @@ export default function Dashboard() {
 
     useEffect(() => {
         async function fetchRatings() {
-            const platformRequests = platforms.map(async (platform) => {
+            const platformRequests = ratingPlatforms.map(async (platform) => {
                 try {
                     const response = await axios.get(
                         `/api/ratings?platform=${platform.platform}&username=${platform.username}`
@@ -150,7 +150,7 @@ export default function Dashboard() {
                         </div>
                     ) : (
                         <BentoGrid className="w-[310px] grid-cols-1 gap-4">
-                            {platforms.map((platform) => (
+                            {ratingPlatforms.map((platform) => (
                                 <BentoGridItem
                                     key={platform.id}
                                     className="border h-[140px]"

@@ -1,4 +1,4 @@
-import { Platform, Problem } from "@/types/types";
+import { Problem } from "@/types/types";
 import { ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -8,6 +8,10 @@ export function cn(...inputs: ClassValue[]) {
 
 export function formatComplexity(complexity: string) {
     return complexity.replace(/\^(\d+)/g, (_, exp) => `<sup>${exp}</sup>`);
+}
+
+export function capitalizeFirstLetter(str: string) {
+    return str?.charAt(0).toUpperCase() + str?.slice(1);
 }
 
 export const problems: Problem[] = [
@@ -228,40 +232,42 @@ export const inventories = [
     },
 ];
 
-export const platforms: Platform[] = [
+export const ratingPlatforms = [
     {
         id: 1,
         platform: "LeetCode",
-        username: "pulkit95700",
         imgSrc: "https://creatorspace.imgix.net/sites/favicons/aHR0cHM6Ly9sZWV0Y29kZS5jb20vZmF2aWNvbi5pY28=.ico?fm=png",
-        show: true,
     },
     {
         id: 2,
         platform: "Codeforces",
-        username: "pulkit95700",
         imgSrc: "https://cdn.iconscout.com/icon/free/png-256/free-code-forces-logo-icon-download-in-svg-png-gif-file-formats--technology-social-media-vol-2-pack-logos-icons-2944796.png?f=webp&w=256",
-        show: true,
     },
     {
         id: 3,
         platform: "Codechef",
-        username: "beyond_horizon",
         imgSrc: "https://img.icons8.com/fluent/512/codechef.png",
-        show: true,
     },
     {
         id: 4,
         platform: "GeeksforGeeks",
-        username: "4umpkrdb0k9x8diu6i2whgro5bth02bfcqcp72wy",
         imgSrc: "https://upload.wikimedia.org/wikipedia/commons/e/eb/GeeksForGeeks_logo.png",
-        show: true,
     },
     {
         id: 5,
         platform: "AtCoder",
-        username: "ayaanshrajotia",
         imgSrc: "https://i.namu.wiki/i/oloBJdRd29lBIF-mdv1FjWucpE3tGPhudDBTvOBChAT3A5w9zDUYg51mvn6NNOwoHJZIwxkVyzeXQMhtLAcQOQ.webp",
-        show: true,
     },
 ];
+
+export const ratingImagesMap: Record<string, string> = {
+    leetcode:
+        "https://creatorspace.imgix.net/sites/favicons/aHR0cHM6Ly9sZWV0Y29kZS5jb20vZmF2aWNvbi5pY28=.ico?fm=png",
+    codeforces:
+        "https://cdn.iconscout.com/icon/free/png-256/free-code-forces-logo-icon-download-in-svg-png-gif-file-formats--technology-social-media-vol-2-pack-logos-icons-2944796.png?f=webp&w=256",
+    codechef: "https://img.icons8.com/fluent/512/codechef.png",
+    geeksforgeeks:
+        "https://storage.googleapis.com/creatorspace-public/sites%2Ffavicons%2FaHR0cHM6Ly9tZWRpYS5nZWVrc2ZvcmdlZWtzLm9yZy93cC1jb250ZW50L2Nkbi11cGxvYWRzL2dmZ19mYXZpY29uLnBuZw%3D%3D.png",
+    atcoder:
+        "https://i.namu.wiki/i/oloBJdRd29lBIF-mdv1FjWucpE3tGPhudDBTvOBChAT3A5w9zDUYg51mvn6NNOwoHJZIwxkVyzeXQMhtLAcQOQ.webp",
+};

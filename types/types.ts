@@ -1,4 +1,3 @@
-
 export type ProblemContainerType = {
     id: number;
     expanded: number | boolean;
@@ -28,12 +27,11 @@ export type Problem = {
 };
 
 export type InventoryType = {
-    id: number;
-    title: string;
-    description: string;
+    inventory_id: string;
+    inventory_name: string;
+    inventory_desc: string;
     problemCount: number;
-    slug: string;
-    createdAt: string;
+    createdAt: Date;
 };
 
 export type Platform = {

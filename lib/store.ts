@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "./features/user/userSlice";
+import inventoryReducer from "./features/inventory/inventorySlice";
 
 export const makeStore = () => {
     return configureStore({
         reducer: {
             // Add reducers here
             user: userReducer,
+            inventory: inventoryReducer,
         },
     });
 };

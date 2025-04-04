@@ -49,7 +49,7 @@ export const ModalTrigger = ({
     const { setOpen } = useModal();
     return (
         <button
-            className={cn(" relative overflow-hidden", className)}
+            className={cn("relative", className)}
             onClick={() => setOpen(true)}
         >
             {children}

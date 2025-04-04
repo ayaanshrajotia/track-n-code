@@ -6,7 +6,7 @@ export interface IProblemInventory extends Document {
 }
 
 // ProblemInventory Schema
-const ProblemInventorySchema = new Schema<IProblemInventory>(
+const ProblemInventoryLookupSchema = new Schema<IProblemInventory>(
   {
     inventory_id: { type: String, required: true, ref: "Inventory" },
     problem_id: { type: String, required: true, ref: "Problem" },
@@ -14,4 +14,5 @@ const ProblemInventorySchema = new Schema<IProblemInventory>(
   { timestamps: true }
 );
 
-export default mongoose.models.ProblemInventory || mongoose.model<IProblemInventory>("ProblemInventory", ProblemInventorySchema);
+export default mongoose.models.ProblemInventoryLookup ||
+  mongoose.model<IProblemInventory>("ProblemInventoryLookup", ProblemInventoryLookupSchema);

@@ -2,7 +2,7 @@ import mongoose, { Schema, Document } from "mongoose";
 
 export interface ITag extends Document {
   tag_name: string;
-  user_id?: string;
+  user_id?: mongoose.Schema.Types.ObjectId;
   tag_type?: string;
 }
 

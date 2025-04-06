@@ -4,6 +4,7 @@ import mongoose, { Schema } from "mongoose";
 export interface ICompanyProblemLookup {
   company_tag_id: Schema.Types.ObjectId | string;
   problem_id: Schema.Types.ObjectId | string;
+  user_id: Schema.Types.ObjectId | string;
 }
 
 const CompanyProblemLookupSchema = new Schema<ICompanyProblemLookup>({
@@ -14,6 +15,10 @@ const CompanyProblemLookupSchema = new Schema<ICompanyProblemLookup>({
   problem_id: {
     type: Schema.Types.ObjectId,
     ref: "Problem",
+  },
+  user_id: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
   },
 });
 

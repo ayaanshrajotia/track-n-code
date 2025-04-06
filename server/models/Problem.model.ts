@@ -2,7 +2,7 @@ import mongoose, { Schema, Document } from "mongoose";
 
 export interface IProblem extends Document {
   problem_id: string;
-  user_id: string; // FK reference to User
+  user_id: mongoose.Schema.Types.ObjectId; // FK reference to User
   problem_title: string;
   platform_name: string;
   time_complexity: string;
@@ -18,7 +18,11 @@ export interface IProblem extends Document {
 const ProblemSchema = new Schema<IProblem>(
   {
     problem_id: { type: String, required: true },
-    user_id: { type: String, required: true, ref: "User" },
+    user_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "User",
+    },
     problem_title: { type: String, required: true },
     platform_name: { type: String, required: true },
     time_complexity: { type: String, default: "Unknown" },

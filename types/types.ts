@@ -27,11 +27,11 @@ export type Problem = {
 };
 
 export type InventoryType = {
-    inventory_id: string;
+    inventory_id?: string;
     inventory_name: string;
-    inventory_desc: string;
-    problemCount: number;
-    createdAt: Date;
+    inventory_desc?: string;
+    problemCount?: number;
+    createdAt?: Date;
 };
 
 export type Platform = {
@@ -47,4 +47,14 @@ export type Rating = {
     rating?: number;
     username: string;
     show: boolean;
+};
+
+export type TagType = {
+    tag_name: string;
+    tag_type: string;
+};
+
+export type CompanyType = {
+    _id: string;
+    company_tag_name: string;
 };

@@ -17,8 +17,7 @@ export function SlideTabs({
     });
 
     const handleLogout = async () => {
-        const res = await signOut({ redirect: true, callbackUrl: "/" });
-        console.log(res);
+        await signOut({ redirect: true, callbackUrl: "/" });
     };
     return (
         <ul

@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "./features/user/userSlice";
 import inventoryReducer from "./features/inventory/inventorySlice";
+import problemReducer from "./features/problem/problemSlice";
 
 export const makeStore = () => {
     return configureStore({
@@ -8,6 +9,7 @@ export const makeStore = () => {
             // Add reducers here
             user: userReducer,
             inventory: inventoryReducer,
+            problem: problemReducer,
         },
     });
 };

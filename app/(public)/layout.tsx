@@ -14,19 +14,19 @@ const navItems = [
         href: "/inventory",
     },
     {
-        title: "Dashboard",
-        icon: <House className="h-full w-full dark:text-neutral-300" />,
-        href: "/dashboard",
-    },
-    {
-        title: "Leaderboard",
+        title: "Problems",
         icon: (
             <ChartNoAxesColumnIncreasing
                 className="h-full w-full dark:text-neutral-300"
                 strokeWidth={3}
             />
         ),
-        href: "/leaderboard",
+        href: "/problems",
+    },
+    {
+        title: "Dashboard",
+        icon: <House className="h-full w-full dark:text-neutral-300" />,
+        href: "/dashboard",
     },
     {
         title: "Logout",

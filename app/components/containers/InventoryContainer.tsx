@@ -23,9 +23,9 @@ export default function InventoryContainer({
     const dispatch = useAppDispatch();
 
     const [inventoryDetails, setInventoryDetails] = useState({
-        inventory_name,
-        inventory_desc,
-        inventory_id,
+        inventory_name: inventory_name || "",
+        inventory_desc: inventory_desc || "",
+        inventory_id: inventory_id || "",
     });
 
     const handleDeleteInventory = async (inventory_id: string) => {
@@ -98,7 +98,7 @@ export default function InventoryContainer({
                             />
                         </Modal>
                         <button
-                            onClick={() => handleDeleteInventory(inventory_id)}
+                            onClick={() => handleDeleteInventory(inventory_id ?? "")}
                             className="h-[30px] w-[30px] flex justify-center items-center bg-tnc-black text-white p-1.5 rounded-[12px] hover:bg-red-600 transition-all"
                         >
                             <Trash2 width={16} height={16} />

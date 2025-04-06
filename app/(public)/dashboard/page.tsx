@@ -21,31 +21,31 @@ export default function Dashboard() {
     const [loading, setLoading] = useState(true);
     console.log(ratings);
 
-    // useEffect(() => {
-    //     async function fetchRatings() {
-    //         const platformRequests = ratingPlatforms.map(async (platform) => {
-    //             try {
-    //                 const response = await axios.get(
-    //                     `/api/ratings?platform=${platform.platform}&username=${platform.username}`
-    //                 );
-    //                 return { [platform.id]: response.data.rating };
-    //             } catch (error) {
-    //                 console.error(`Error fetching ${platform.id}:`, error);
-    //                 return { [platform.id]: "N/A" };
-    //             }
-    //         });
+    useEffect(() => {
+        async function fetchRatings() {
+            const platformRequests = ratingPlatforms.map(async (platform) => {
+                try {
+                    const response = await axios.get(
+                        `/api/ratings?platform=${platform.platform}&username=${platform.username}`
+                    );
+                    return { [platform.id]: response.data.rating };
+                } catch (error) {
+                    console.error(`Error fetching ${platform.id}:`, error);
+                    return { [platform.id]: "N/A" };
+                }
+            });
 
-    //         const results = await Promise.all(platformRequests);
-    //         const ratingData = results.reduce(
-    //             (acc, curr) => ({ ...acc, ...curr }),
-    //             {}
-    //         );
-    //         setRatings(ratingData);
-    //         setLoading(false);
-    //     }
+            const results = await Promise.all(platformRequests);
+            const ratingData = results.reduce(
+                (acc, curr) => ({ ...acc, ...curr }),
+                {}
+            );
+            setRatings(ratingData);
+            setLoading(false);
+        }
 
-    //     fetchRatings();
-    // }, []);
+        fetchRatings();
+    }, []);
 
     return (
         <div>
@@ -171,7 +171,7 @@ export default function Dashboard() {
                                                     {platform?.platform}
                                                 </h1>
                                                 <span className="text-sm truncate block max-w-[200px]">
-                                                    {platform?.username}
+                                                    {/* {platform?.username} */}
                                                 </span>
                                             </div>
                                         </div>

@@ -13,7 +13,7 @@
 // import { useAppSelector } from "@/lib/hooks";
 // import { ratingPlatforms } from "@/app/utils/utils";
 
-// export default function Dashboard() {
+export default function Dashboard() {
 //     const user = useAppSelector((state) => state.user);
 //     console.log(user);
 
@@ -188,4 +188,4 @@
 //             </div>
 //         </div>
 //     );
-// }
+}

@@ -21,31 +21,31 @@ export default function Dashboard() {
     const [loading, setLoading] = useState(true);
     console.log(ratings);
 
-    useEffect(() => {
-        async function fetchRatings() {
-            const platformRequests = ratingPlatforms.map(async (platform) => {
-                try {
-                    const response = await axios.get(
-                        `/api/ratings?platform=${platform.platform}&username=${platform.username}`
-                    );
-                    return { [platform.id]: response.data.rating };
-                } catch (error) {
-                    console.error(`Error fetching ${platform.id}:`, error);
-                    return { [platform.id]: "N/A" };
-                }
-            });
+    // useEffect(() => {
+    //     async function fetchRatings() {
+    //         const platformRequests = ratingPlatforms.map(async (platform) => {
+    //             try {
+    //                 const response = await axios.get(
+    //                     `/api/ratings?platform=${platform.platform}&username=${platform.username}`
+    //                 );
+    //                 return { [platform.id]: response.data.rating };
+    //             } catch (error) {
+    //                 console.error(`Error fetching ${platform.id}:`, error);
+    //                 return { [platform.id]: "N/A" };
+    //             }
+    //         });
 
-            const results = await Promise.all(platformRequests);
-            const ratingData = results.reduce(
-                (acc, curr) => ({ ...acc, ...curr }),
-                {}
-            );
-            setRatings(ratingData);
-            setLoading(false);
-        }
+    //         const results = await Promise.all(platformRequests);
+    //         const ratingData = results.reduce(
+    //             (acc, curr) => ({ ...acc, ...curr }),
+    //             {}
+    //         );
+    //         setRatings(ratingData);
+    //         setLoading(false);
+    //     }
 
-        fetchRatings();
-    }, []);
+    //     fetchRatings();
+    // }, []);
 
     return (
         <div>
@@ -150,16 +150,16 @@ export default function Dashboard() {
                         </div>
                     ) : (
                         <BentoGrid className="w-[310px] grid-cols-1 gap-4">
-                            {ratingPlatforms.map((platform) => (
+                            {ratingPlatforms?.map((platform) => (
                                 <BentoGridItem
-                                    key={platform.id}
+                                    key={platform?.id}
                                     className="border h-[140px]"
                                 >
                                     <div className="w-full h-full flex flex-col justify-between">
                                         <div className="flex gap-2 items-center">
                                             <div className="relative w-9 h-9 border-[1px] rounded-xl bg-white">
                                                 <Image
-                                                    src={platform.imgSrc}
+                                                    src={platform?.imgSrc}
                                                     alt=""
                                                     className="absolute p-1.5"
                                                     fill
@@ -168,15 +168,15 @@ export default function Dashboard() {
                                             </div>
                                             <div>
                                                 <h1 className="font-semibold">
-                                                    {platform.platform}
+                                                    {platform?.platform}
                                                 </h1>
                                                 <span className="text-sm truncate block max-w-[200px]">
-                                                    {platform.username}
+                                                    {platform?.username}
                                                 </span>
                                             </div>
                                         </div>
                                         <div className="text-4xl font-medium tracking-wide">
-                                            {ratings[platform.id] ||
+                                            {ratings[platform?.id] ||
                                                 "Loading..."}
                                         </div>
                                     </div>

@@ -16,10 +16,12 @@ export default {
         extend: {
             colors: {
                 "tnc-gray": "#F5F5F5",
-                "tnc-dark-gray": "#989898",
+                "tnc-dark-gray": "#dcdcdc",
+                "tnc-darker-gray": "#b0b0b0",
                 // "tnc-signature": "#caec46",
                 "tnc-signature": "#d7fc68",
                 "tnc-orange": "#f36740",
+                "tnc-light-orange": "#f8a088",
                 "tnc-black": "#212121",
                 background: "var(--background)",
                 foreground: "var(--foreground)",

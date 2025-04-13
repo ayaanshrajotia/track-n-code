@@ -1,10 +1,6 @@
-// add many tag ka ek api bana deta hoon
-// add company tags ka ek api bana deta hoon
-// add problem to inventories ka ek service bana deta hoon
+import Problem from "@/server/models/Problem.model";
 import Tag from "@/server/models/Tag.model";
-import TagProblemLookup from "@/server/models/TagProblemLookup.model";
 import mongoose from "mongoose";
-
 interface ITag {
   tag_name: string;
   tag_type: string; // atomic or global
@@ -27,9 +23,7 @@ export const addManyTags = async (
     );
 
     // let's first fetch all the tags from the database that are of specific user and that are of type global
-    const existingTags = await Tag.find({
-      $or: [{ user_id: user_id, tag_type: "atomic" }, { tag_type: "cosmic" }],
-    });
+    const existingTags = await Tag.find({});
 
     const existingTagNames = existingTags.map((tag) =>
       tag.tag_name.toLowerCase()
@@ -78,17 +72,12 @@ export const addManyTags = async (
         )
       );
 
-      const tagProblemLookups = problemTags.map((tag) => ({
-        tag_id: tag._id,
-        problem_id: problem_id,
-        user_id: user_id,
-      }));
-
-      // insert the tagProblemLookups into the database
-      await TagProblemLookup.insertMany(tagProblemLookups, {
-        session,
-      });
-
+      // add the tags to the problem
+      await Problem.updateOne(
+        { _id: problem_id },
+        { $addToSet: { tags: problemTags } },
+        { session }
+      );
       return problemTags;
     }
 

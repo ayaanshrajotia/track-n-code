@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Inventory from "../models/Inventory.model";
 import { v4 } from "uuid";
-import ProblemInventoryLookup from "../models/ProblemInventoryLookup";
+import Problem from "@/server/models/Problem.model";
 export const addInventoryToProblem = async (
   inventory_names: string[],
   user_id: string,
@@ -13,7 +13,7 @@ export const addInventoryToProblem = async (
 
     const inventories = await Inventory.find({
       user_id: user_id,
-    }).select("_id inventory_name ");
+    }).select("_id inventory_name");
 
     const allInventoryNames = inventories.map((inventory) =>
       inventory.inventory_name.toLowerCase()
@@ -46,18 +46,19 @@ export const addInventoryToProblem = async (
       inventory_names.includes(inventory.inventory_name)
     );
 
-    const filteredInventoriesLookups = filteredInventories.map((inventory) => ({
-      inventory_id: inventory._id,
-      problem_id: problem_id,
-      user_id: user_id,
-    }));
+    const filteredInventoriesIds = filteredInventories.map(
+      (inventory) => inventory._id
+    );
 
-    // mow create the inventory problem lookup
-    await ProblemInventoryLookup.insertMany(filteredInventoriesLookups, {
-      session,
-    });
+    await Problem.updateOne(
+      { _id: problem_id },
+      {
+        $addToSet: { inventory_ids: { $each: filteredInventoriesIds } },
+      },
+      { session }
+    );
 
-    return filteredInventories;
+    return filteredInventoriesIds;
   } catch (error) {
     console.error("Error in addInventoryToProblem:", error);
     throw error;

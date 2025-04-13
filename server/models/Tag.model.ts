@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import mongoose, { Schema, Document } from "mongoose";
 
 export interface ITag extends Document {
@@ -12,16 +13,9 @@ const TagSchema = new Schema<ITag>(
     tag_name: {
       type: String,
       required: true,
-    },
-    user_id: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-    },
-    tag_type: {
-      type: String,
-      enum: ["atomic", "cosmos"],
-      default: "atomic",
-    },
+      unique: true,
+      trim: true
+    }
   },
   { timestamps: true }
 );

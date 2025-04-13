@@ -8,9 +8,6 @@ import {
   isVariableObject,
 } from "../utils/data_validator.util";
 import mongoose from "mongoose";
-import { addInventoryToProblem } from "../services/inventory.service";
-import { addManyTags } from "../services/tag.service";
-import { addToCompanyProblemLookup } from "../services/company.service";
 // import { addManyTags } from "../services/tag.service";
 
 export const addProblemHandler = async (req: NextRequest) => {
@@ -43,12 +40,27 @@ export const addProblemHandler = async (req: NextRequest) => {
 
     // check if the problem title already exists
     const existingProblem = await Problem.findOne({
-      problem_title: data.problem_title,
       user_id: user._id,
+      problem_title: data.problem_title,
     });
 
     if (existingProblem) {
       throw new Error("Problem with the same title already exists");
+    }
+
+    // check if the tags array is present
+    if (!Array.isArray(data.tags) || data.tags.length == 0) {
+      throw new Error("Tags array is not correct or empty");
+    }
+
+    // check if the company tags array is present
+    if (!Array.isArray(data.company_tags) || data.company_tags.length == 0) {
+      throw new Error("Company tags array is not correct or empty");
+    }
+
+    // check if the inventories array is present
+    if (!Array.isArray(data.inventories) || data.inventories.length == 0) {
+      throw new Error("Inventories array is not correct or empty");
     }
 
     // generate a unique id for the problem and create the problem
@@ -66,6 +78,9 @@ export const addProblemHandler = async (req: NextRequest) => {
           space_complexity: data.space_complexity || "Unknown",
           platform_name: data.platform_name,
           resources: data.resources || [],
+          companies: data.company_tags || [],
+          tags: data.tags || [],
+          inventories: data.inventories || [],
         },
       ],
       {
@@ -73,42 +88,12 @@ export const addProblemHandler = async (req: NextRequest) => {
       }
     );
 
-    const problem = problems[0].toObject();
-    problem.user_id = undefined;
-    problem.__v = undefined;
-
-    // adding the inventory to the problems
-    problem.inventories = await addInventoryToProblem(
-      data.inventories,
-      user._id,
-      problem._id,
-      session
-    );
-
-    // adding the tags to the problem
-    problem.tags = await addManyTags(
-      data.tags || [],
-      user._id,
-      session,
-      problem._id
-    );
-
-    // adding company tags to the problem
-    if (Array.isArray(data.company_tags) && data.company_tags.length > 0) {
-      problem.company_tags = await addToCompanyProblemLookup(
-        data.company_tags,
-        problem._id,
-        user._id,
-        session
-      );
-    }
-
     await session.commitTransaction();
     await session.endSession();
 
     return NextResponse.json({
       success: true,
-      result: problem,
+      result: problems[0],
       message: "Problem added successfully",
       error: null,
     });
@@ -121,6 +106,37 @@ export const addProblemHandler = async (req: NextRequest) => {
         success: false,
         result: null,
         error: isVariableObject(error) ? error.message : error,
+      },
+      { status: 500 }
+    );
+  }
+};
+
+export const getAllProblems = async (req: NextRequest) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const user: any = req.user;
+  try {
+    // first only aggregat the problems that are created by the user
+    const problems = await Problem.aggregate([
+      {
+        $match: {
+          user_id: new mongoose.Types.ObjectId(user._id),
+        },
+      },
+    ]);
+
+    return NextResponse.json({
+      success: true,
+      result: problems,
+      error: null,
+    });
+  } catch (error) {
+    console.error("Error in getAllProblem: ", error);
+    return NextResponse.json(
+      {
+        success: false,
+        result: null,
+        error: error instanceof Error ? error.message : "Unknown error",
       },
       { status: 500 }
     );

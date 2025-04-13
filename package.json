@@ -17,6 +17,7 @@
     "cheerio": "^1.0.0",
     "cloudinary": "^2.6.0",
     "clsx": "^2.1.1",
+    "dotenv": "^16.5.0",
     "jsonwebtoken": "^9.0.2",
     "linkify-react": "^4.2.0",
     "lucide-react": "^0.476.0",

@@ -11,8 +11,8 @@ type ProblemType = {
     notes: string;
     tags: TagType[];
     resources: string[];
-    inventories: string[];
-    company_tags: string[];
+    inventories: InventoryType[];
+    companies: CompanyType[];
     time_complexity: string;
     space_complexity: string;
     is_revision: boolean;
@@ -45,6 +45,7 @@ export const getAllTCI = createAsyncThunk(
             // }
             const response = await axiosInstance.get("/tci");
             // localStorage.setItem("tci", JSON.stringify(response.data));
+            console.log("response", response.data);
             return response.data;
         } catch (error) {
             const axiosError = error as AxiosError; // Explicitly type error as AxiosError
@@ -65,7 +66,6 @@ const initialState: {
     companiesFromServer: CompanyType[];
     tagsFromServer: TagType[];
     TCILoading: boolean;
-    companiesNameToId: { [key: string]: string };
 } = {
     problem: null,
     addLoading: false,
@@ -75,7 +75,6 @@ const initialState: {
     companiesFromServer: [],
     tagsFromServer: [],
     TCILoading: false,
-    companiesNameToId: {},
 };
 
 const problemSlice = createSlice({
@@ -103,12 +102,8 @@ const problemSlice = createSlice({
             })
             .addCase(getAllTCI.fulfilled, (state, action) => {
                 state.TCILoading = false;
-                for (const company of action.payload.result.company_tags) {
-                    state.companiesNameToId[company._id] =
-                        company.company_tag_name;
-                }
                 state.tagsFromServer = action.payload.result.tags;
-                state.companiesFromServer = action.payload.result.company_tags;
+                state.companiesFromServer = action.payload.result.companies;
                 state.inventoriesFromServer = action.payload.result.inventories;
             })
             .addCase(getAllTCI.rejected, (state, action) => {

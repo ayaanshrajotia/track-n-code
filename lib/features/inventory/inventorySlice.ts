@@ -82,13 +82,13 @@ export const deleteInventory = createAsyncThunk(
 
 const initialState: {
     inventories: InventoryType[];
-    loading: boolean;
+    getLoading: boolean;
     error: string | null;
     editLoading: boolean;
     message: null | string;
 } = {
     inventories: [],
-    loading: false,
+    getLoading: false,
     editLoading: false,
     error: null,
     message: null,
@@ -101,15 +101,16 @@ const inventorySlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(getInventories.pending, (state) => {
-                state.loading = true;
+                state.getLoading = true;
                 state.error = null;
             })
             .addCase(getInventories.fulfilled, (state, action) => {
                 state.inventories = action.payload.result;
                 state.message = action.payload.message;
-                state.loading = false;
+                state.getLoading = false;
             })
             .addCase(getInventories.rejected, (state, action) => {
+                state.getLoading = false;
                 state.error = action.payload as string;
                 console.log(action.payload);
             })

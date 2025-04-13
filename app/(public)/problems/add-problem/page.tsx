@@ -28,7 +28,6 @@ export default function AddProblemPage() {
         companiesFromServer,
         tagsFromServer,
         inventoriesFromServer,
-        companiesNameToId,
         addLoading,
     } = useAppSelector((state) => state.problem);
 
@@ -39,9 +38,9 @@ export default function AddProblemPage() {
         difficulty: "Easy",
         notes: "",
         tags: [] as TagType[],
-        inventories: [] as string[],
+        inventories: [] as InventoryType[],
         resources: [] as string[],
-        company_tags: [] as string[],
+        companies: [] as CompanyType[],
         time_complexity: "",
         space_complexity: "",
         is_revision: false,
@@ -79,13 +78,6 @@ export default function AddProblemPage() {
                 tag.tag_name.toLowerCase().includes(query.toLowerCase())
             );
             setFilteredTags(matchingTags);
-
-            if (
-                matchingTags.length === 0 &&
-                !tagsFromServer.some((tag) => tag.tag_name === query)
-            ) {
-                setFilteredTags([{ tag_name: query, tag_type: "atomic" }]); // Allow adding a new tag
-            }
         } else {
             setFilteredTags([]);
         }
@@ -112,12 +104,12 @@ export default function AddProblemPage() {
         setFilteredTags([]);
     };
 
-    const handletagKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === "Enter" && searchTag.trim() !== "") {
-            handleTagSelect({ tag_name: searchTag.trim(), tag_type: "atomic" });
-            e.preventDefault(); // Prevent form submission
-        }
-    };
+    // const handletagKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    //     if (e.key === "Enter" && searchTag.trim() !== "") {
+    //         handleTagSelect({ tag_name: searchTag.trim() });
+    //         e.preventDefault(); // Prevent form submission
+    //     }
+    // };
 
     const handleAddInventoryInputChange = (
         e: React.ChangeEvent<HTMLInputElement>
@@ -126,7 +118,7 @@ export default function AddProblemPage() {
         setSearchInventory(query);
 
         if (query.length > 0) {
-            const matchingInventory = inventoriesFromServer.filter(
+            const matchingInventory = inventoriesFromServer?.filter(
                 (inventory) =>
                     inventory.inventory_name
                         .toLowerCase()
@@ -134,22 +126,17 @@ export default function AddProblemPage() {
             );
 
             setFilteredInventories(matchingInventory);
-
-            if (
-                matchingInventory.length === 0 &&
-                !inventoriesFromServer.some(
-                    (inventory) => inventory.inventory_name === query
-                )
-            ) {
-                setFilteredInventories([{ inventory_name: query }]); // Allow adding a new inventory
-            }
         } else {
             setFilteredInventories([]);
         }
     };
 
-    const handleAddInventorySelect = (inventory: string) => {
-        if (!problemDetails.inventories.find((i) => i === inventory)) {
+    const handleAddInventorySelect = (inventory: InventoryType) => {
+        if (
+            !problemDetails.inventories.find(
+                (i) => i.inventory_id === inventory.inventory_id
+            )
+        ) {
             setProblemDetails((prev) => ({
                 ...prev,
                 inventories: [...prev.inventories, inventory],
@@ -159,10 +146,12 @@ export default function AddProblemPage() {
         setSearchInventory("");
     };
 
-    const handleAddInventoryRemove = (inventory: string) => {
+    const handleAddInventoryRemove = (inventory: InventoryType) => {
         setProblemDetails((prev) => ({
             ...prev,
-            inventories: prev.inventories.filter((i) => i !== inventory),
+            inventories: prev.inventories.filter(
+                (i) => i.inventory_id !== inventory.inventory_id
+            ),
         }));
         setSearchInventory("");
         setFilteredInventories([]);
@@ -175,43 +164,41 @@ export default function AddProblemPage() {
         setSearchCompany(query);
 
         if (query.length > 0) {
-            const matchingCompanies = companiesFromServer.filter((company) =>
-                company.company_tag_name
-                    .toLowerCase()
-                    .includes(query.toLowerCase())
+            const matchingCompanies = companiesFromServer?.filter((company) =>
+                company.company_name.toLowerCase().includes(query.toLowerCase())
             );
             setFilteredCompanies(matchingCompanies);
         } else {
             setFilteredCompanies([]);
         }
     };
+    console.log(filteredCompanies);
 
     const handleCompanySelect = (company: CompanyType) => {
-        if (!problemDetails.company_tags.find((c) => c === company._id)) {
+        if (
+            !problemDetails.companies.find(
+                (c) => c.company_id === company.company_id
+            )
+        ) {
             setProblemDetails((prev) => ({
                 ...prev,
-                company_tags: [...prev.company_tags, company._id],
+                companies: [...prev.companies, company],
             }));
         }
         setFilteredCompanies([]);
         setSearchCompany("");
     };
 
-    const handleCompanyRemove = (company: string) => {
+    const handleCompanyRemove = (company: CompanyType) => {
         setProblemDetails((prev) => ({
             ...prev,
-            company_tags: prev.company_tags.filter((c) => c !== company),
+            companies: prev.companies.filter(
+                (c) => c.company_id !== company.company_id
+            ),
         }));
         setSearchCompany("");
         setFilteredCompanies([]);
     };
-
-    // const handleCompanyKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    //     if (e.key === "Enter" && searchCompany.trim() !== "") {
-    //         handleCompanySelect(searchCompany.trim());
-    //         e.preventDefault(); // Prevent form submission
-    //     }
-    // };
 
     const handleAddResource = () => {
         if (
@@ -252,6 +239,7 @@ export default function AddProblemPage() {
                 (typeof error === "string" && error) || "Something went wrong"
             ); // show error from backend
         }
+        // console.log(problemDetails);
     };
 
     useEffect(() => {
@@ -261,10 +249,10 @@ export default function AddProblemPage() {
     return (
         <div>
             {/* Header Section */}
-            <Header>Problem</Header>
+            <Header>Add Problem</Header>
             <div className="flex flex-col gap-4">
                 <button
-                    className={`text-white rounded-[24px] flex justify-between items-center px-4 py-3 cursor-pointer relative overflow-hidden group w-fit self-end transition-all ${
+                    className={`text-white gradient rounded-[24px] flex justify-between items-center px-4 py-3 cursor-pointer relative overflow-hidden group w-fit self-end transition-all ${
                         problemDetails.is_revision
                             ? "bg-tnc-orange"
                             : "bg-tnc-black"
@@ -284,14 +272,14 @@ export default function AddProblemPage() {
                 </button>
                 <BentoGrid className="grid-cols-12 gap-5">
                     {/* Problem Name Input */}
-                    <BentoGridItem className="col-span-6 flex flex-col justify-between bg-tnc-black text-white">
-                        <h1 className="text-sm text-neutral-200 font-medium">
+                    <BentoGridItem className="col-span-6 flex flex-col justify-between border">
+                        <h1 className=" text-stone-700 font-medium">
                             Problem Name
                         </h1>
                         <input
                             type="text"
-                            placeholder="enter-problem-name"
-                            className="bg-transparent w-full text-white text-lg font-medium outline-none placeholder:font-normal"
+                            placeholder="enter problem name"
+                            className="bg-transparent w-full text-lg font-medium outline-none placeholder:font-normal"
                             value={problemDetails.problem_title}
                             onChange={(e) =>
                                 setProblemDetails({
@@ -304,10 +292,10 @@ export default function AddProblemPage() {
 
                     {/* Problem URL Input */}
                     <BentoGridItem className="col-span-6 flex flex-col gap-3 justify-between border">
-                        <h1 className="text-sm font-medium">Problem Link</h1>
+                        <h1 className=" font-medium">Problem Link</h1>
                         <input
                             type="text"
-                            placeholder="enter-problem-link"
+                            placeholder="enter problem link"
                             value={problemDetails.url}
                             onChange={(e) =>
                                 setProblemDetails({
@@ -321,7 +309,7 @@ export default function AddProblemPage() {
 
                     {/* Platform Dropdown */}
                     <BentoGridItem className="col-span-6 flex flex-col gap-2.5 bg-tnc-gray border">
-                        <h1 className="font-medium text-sm">Platform</h1>
+                        <h1 className="font-medium ">Platform</h1>
                         <div className="w-full">
                             {/* Dropdown Header */}
                             <motion.header
@@ -403,7 +391,7 @@ export default function AddProblemPage() {
 
                     {/* Difficulty Dropdown */}
                     <BentoGridItem className="col-span-6 flex flex-col gap-2.5 border">
-                        <h1 className="font-medium text-sm">Difficulty</h1>
+                        <h1 className="font-medium ">Difficulty</h1>
                         <div className="w-full">
                             {/* Dropdown Header */}
                             <motion.header
@@ -484,7 +472,7 @@ export default function AddProblemPage() {
 
                     {/* Time Complexity Input */}
                     <BentoGridItem className="col-span-6 flex flex-col gap-3 border">
-                        <h1 className="font-medium text-sm">Time Complexity</h1>
+                        <h1 className="font-medium ">Time Complexity</h1>
                         <span className="text-3xl font-semibold">
                             O
                             <input
@@ -506,9 +494,7 @@ export default function AddProblemPage() {
 
                     {/* Space Complexity Input */}
                     <BentoGridItem className="col-span-6 flex flex-col gap-3 border">
-                        <h1 className="font-medium text-sm">
-                            Space Complexity
-                        </h1>
+                        <h1 className="font-medium ">Space Complexity</h1>
                         <span className="text-3xl font-semibold">
                             O
                             <input
@@ -528,20 +514,36 @@ export default function AddProblemPage() {
                         </span>
                     </BentoGridItem>
 
+                    {/* Notes Section */}
+                    <BentoGridItem className="col-span-12 border flex flex-col gap-3">
+                        <h1 className="font-medium ">Notes</h1>
+                        <textarea
+                            className="bg-transparent text-lg outline-none"
+                            placeholder="write notes"
+                            value={problemDetails.notes}
+                            onChange={(e) =>
+                                setProblemDetails({
+                                    ...problemDetails,
+                                    notes: e.target.value,
+                                })
+                            }
+                        />
+                    </BentoGridItem>
+
                     {/* Add Inventory Section */}
                     <BentoGridItem className="col-span-12 border flex flex-col gap-3">
-                        <h1 className="font-semibold text-sm opacity-80">
-                            Add Inventory
+                        <h1 className="font-semibold  opacity-80">
+                            Inventories
                         </h1>
                         {problemDetails?.inventories.length > 0 && (
                             <div className="flex flex-wrap gap-2">
                                 {problemDetails?.inventories.map(
                                     (inventory) => (
                                         <span
-                                            key={inventory}
+                                            key={inventory.inventory_id}
                                             className="bg-tnc-black text-white pl-3 pr-2 py-1 rounded-[20px] flex items-center"
                                         >
-                                            {inventory}
+                                            {inventory.inventory_name}
                                             <X
                                                 className="ml-2 cursor-pointer"
                                                 size={20}
@@ -558,7 +560,7 @@ export default function AddProblemPage() {
                         )}
                         <div className="flex flex-col gap-1">
                             {/* Search Input */}
-                            <div className="flex items-center gap-2 bg-white border p-3 py-2 rounded-[20px]">
+                            <div className="flex items-center gap-2 rounded-[16px]">
                                 <SearchIcon
                                     size={20}
                                     className="text-tnc-darker-gray"
@@ -578,7 +580,7 @@ export default function AddProblemPage() {
                                             100
                                         )
                                     }
-                                    placeholder="search-inventories"
+                                    placeholder="search inventories"
                                     className="bg-transparent text-lg w-full outline-none font-medium placeholder:font-normal placeholder:text-tnc-darker-gray"
                                 />
                             </div>
@@ -605,13 +607,15 @@ export default function AddProblemPage() {
                                         className="overflow-hidden"
                                     >
                                         <ul className="mt-2">
-                                            {filteredInventories.map(
+                                            {filteredInventories?.map(
                                                 (inventory) => (
                                                     <li
-                                                        key={`${inventory.inventory_id}-${inventory.inventory_name}`}
+                                                        key={
+                                                            inventory.inventory_id
+                                                        }
                                                         onClick={() =>
                                                             handleAddInventorySelect(
-                                                                inventory.inventory_name
+                                                                inventory
                                                             )
                                                         }
                                                         className="cursor-pointer text-base text-stone-700 hover:bg-tnc-orange hover:text-white hover:font-medium hover:px-2 py-0.5 w-fit transition-all rounded-[8px]"
@@ -620,7 +624,7 @@ export default function AddProblemPage() {
                                                             inventory
                                                         )
                                                             ? inventory.inventory_name
-                                                            : `Add "${inventory.inventory_name}"`}
+                                                            : "No matches found"}
                                                     </li>
                                                 )
                                             )}
@@ -631,27 +635,9 @@ export default function AddProblemPage() {
                         </div>
                     </BentoGridItem>
 
-                    {/* Notes Section */}
-                    <BentoGridItem className="col-span-12 border flex flex-col gap-3">
-                        <h1 className="font-medium text-sm">Notes</h1>
-                        <textarea
-                            className="bg-transparent text-lg outline-none"
-                            placeholder="write-notes"
-                            value={problemDetails.notes}
-                            onChange={(e) =>
-                                setProblemDetails({
-                                    ...problemDetails,
-                                    notes: e.target.value,
-                                })
-                            }
-                        />
-                    </BentoGridItem>
-
                     {/* Tags Section */}
                     <BentoGridItem className="col-span-12 border flex flex-col gap-3">
-                        <h1 className="font-semibold text-sm opacity-80">
-                            Tags
-                        </h1>
+                        <h1 className="font-semibold  opacity-80">Tags</h1>
                         {problemDetails?.tags.length > 0 && (
                             <div className="flex flex-wrap gap-2">
                                 {problemDetails?.tags.map((tag) => (
@@ -672,7 +658,7 @@ export default function AddProblemPage() {
                             </div>
                         )}
                         <div className="flex flex-col gap-1">
-                            <div className="flex items-center gap-2 bg-white border p-3 py-2 rounded-[20px]">
+                            <div className="flex items-center gap-2 rounded-[16px]">
                                 <SearchIcon
                                     size={20}
                                     className="text-tnc-darker-gray"
@@ -681,7 +667,7 @@ export default function AddProblemPage() {
                                     type="text"
                                     value={searchTag}
                                     onChange={handleTagInputChange}
-                                    onKeyDown={handletagKeyDown}
+                                    // onKeyDown={handletagKeyDown}
                                     onFocus={() =>
                                         setFilteredTags(tagsFromServer)
                                     }
@@ -691,7 +677,7 @@ export default function AddProblemPage() {
                                             100
                                         )
                                     }
-                                    placeholder="search-tags"
+                                    placeholder="search tags"
                                     className="bg-transparent text-lg w-full outline-none font-medium placeholder:font-normal placeholder:text-tnc-darker-gray"
                                 />
                             </div>
@@ -718,9 +704,9 @@ export default function AddProblemPage() {
                                         className="overflow-hidden"
                                     >
                                         <ul className="mt-2 grid grid-cols-3 gap-x-3">
-                                            {filteredTags.map((tag) => (
+                                            {filteredTags?.map((tag) => (
                                                 <li
-                                                    key={tag.tag_name}
+                                                    key={tag.tag_id}
                                                     onClick={() =>
                                                         handleTagSelect(tag)
                                                     }
@@ -730,7 +716,7 @@ export default function AddProblemPage() {
                                                         tag
                                                     )
                                                         ? tag.tag_name
-                                                        : `Add "${tag.tag_name}"`}
+                                                        : "No matches found"}
                                                 </li>
                                             ))}
                                         </ul>
@@ -742,17 +728,15 @@ export default function AddProblemPage() {
 
                     {/* Companies Section */}
                     <BentoGridItem className="col-span-12 border flex flex-col gap-3 focus:border-black">
-                        <h1 className="font-semibold text-sm opacity-80">
-                            Companies
-                        </h1>
-                        {problemDetails?.company_tags.length > 0 && (
+                        <h1 className="font-semibold opacity-80">Companies</h1>
+                        {problemDetails?.companies.length > 0 && (
                             <div className="flex flex-wrap gap-2">
-                                {problemDetails?.company_tags.map((company) => (
+                                {problemDetails?.companies.map((company) => (
                                     <span
-                                        key={company}
+                                        key={company.company_id}
                                         className="bg-tnc-black text-white pl-3 pr-2 py-1 rounded-[20px] flex items-center"
                                     >
-                                        {companiesNameToId[company]}
+                                        {company.company_name}
                                         <X
                                             className="ml-2 cursor-pointer"
                                             size={20}
@@ -767,7 +751,7 @@ export default function AddProblemPage() {
                         <div className="flex flex-col gap-1">
                             <div
                                 tabIndex={0}
-                                className="flex items-center gap-2 border  bg-white p-3 py-2 rounded-[20px]"
+                                className="flex items-center gap-2 rounded-[16px]"
                             >
                                 <SearchIcon
                                     size={20}
@@ -789,12 +773,12 @@ export default function AddProblemPage() {
                                             100
                                         )
                                     }
-                                    placeholder="search-companies"
+                                    placeholder="search companies"
                                     className="bg-transparent text-lg w-full outline-none font-medium placeholder:font-normal placeholder:text-tnc-darker-gray"
                                 />
                             </div>
                             <AnimatePresence>
-                                {filteredCompanies.length > 0 && (
+                                {filteredCompanies?.length > 0 && (
                                     <motion.section
                                         initial="collapsed"
                                         animate="open"
@@ -816,10 +800,10 @@ export default function AddProblemPage() {
                                         className="overflow-hidden"
                                     >
                                         <ul className="mt-2 grid grid-cols-3 gap-x-3">
-                                            {filteredCompanies.map(
+                                            {filteredCompanies?.map(
                                                 (company) => (
                                                     <li
-                                                        key={company._id}
+                                                        key={company.company_id}
                                                         onClick={() =>
                                                             handleCompanySelect(
                                                                 company
@@ -830,7 +814,7 @@ export default function AddProblemPage() {
                                                         {companiesFromServer.includes(
                                                             company
                                                         )
-                                                            ? company.company_tag_name
+                                                            ? company.company_name
                                                             : "No matches found"}
                                                     </li>
                                                 )
@@ -844,8 +828,8 @@ export default function AddProblemPage() {
 
                     {/* Resources Section */}
                     <BentoGridItem className="col-span-12 border flex flex-col gap-3">
-                        <h1 className="font-medium text-sm">Resources</h1>
-                        <div className="flex">
+                        <h1 className="font-medium ">Resources</h1>
+                        <div className="flex rounded-[16px] gap-4">
                             <input
                                 type="text"
                                 value={resourceInput}
@@ -853,12 +837,14 @@ export default function AddProblemPage() {
                                     setResourceInput(e.target.value)
                                 }
                                 onKeyDown={handleResourceKeyDown}
-                                placeholder="add-resources"
-                                className="bg-white border p-2 px-3 rounded-[16px] w-full text-lg font-medium outline-none placeholder:font-normal"
+                                placeholder="add resources"
+                                className="w-full text-lg bg-transparent font-medium outline-none placeholder:font-normal"
                             />
                             <button
                                 onClick={handleAddResource}
-                                className="ml-2 px-3 bg-tnc-black text-white text-sm rounded-[16px]"
+                                className={`bg-tnc-black text-white px-1  rounded-full ${
+                                    resourceInput ? "block" : " hidden"
+                                }`}
                             >
                                 <Plus className="" size={24} />
                             </button>
@@ -868,19 +854,19 @@ export default function AddProblemPage() {
                                 {problemDetails.resources.map((resource) => (
                                     <div
                                         key={resource}
-                                        className="bg-tnc-black text-white pl-3 pr-2 py-1.5 rounded-[20px] flex items-center justify-between"
+                                        className="bg-white border pl-3 pr-2 py-2 rounded-[14px] flex items-center justify-between"
                                     >
                                         <Linkify
                                             options={{
                                                 className:
-                                                    "text-blue-500 dark:text-blue-400 underline hover:text-blue-600",
+                                                    "text-blue-500 dark:text-blue-400 hover:text-blue-600",
                                                 target: "_blank",
                                             }}
                                         >
                                             {resource}
                                         </Linkify>
                                         <X
-                                            className="cursor-pointer"
+                                            className="cursor-pointer text-tnc-darker-gray"
                                             size={20}
                                             onClick={() =>
                                                 removeResource(resource)

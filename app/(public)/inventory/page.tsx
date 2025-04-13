@@ -2,6 +2,7 @@
 import Header from "@/app/components/Header";
 import InventoryContainer from "@/app/components/containers/InventoryContainer";
 import InventoryAddModal from "@/app/components/modals/InventoryAddModal";
+import GetInventorySkeleton from "@/app/components/skeletons/GetInventorySkeleton";
 import { Modal } from "@/app/components/ui/animated-modal";
 import { BentoGrid } from "@/app/components/ui/bento-grid";
 import {
@@ -15,7 +16,9 @@ import { Toaster } from "react-hot-toast";
 
 export default function Inventory() {
     const dispatch = useAppDispatch();
-    const { inventories } = useAppSelector((state) => state.inventory);
+    const { inventories, getLoading } = useAppSelector(
+        (state) => state.inventory
+    );
 
     const [inventoryDetails, setInventoryDetails] = useState({
         inventory_name: "",
@@ -34,6 +37,10 @@ export default function Inventory() {
     useEffect(() => {
         dispatch(getInventories());
     }, [dispatch]);
+
+    if (getLoading) {
+        return <GetInventorySkeleton />;
+    }
 
     return (
         <div>

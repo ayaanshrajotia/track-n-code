@@ -15,13 +15,15 @@ export default {
     theme: {
         extend: {
             colors: {
-                "tnc-gray": "#F5F5F5",
+                "tnc-gray": "#f8f8f8",
                 "tnc-dark-gray": "#dcdcdc",
                 "tnc-darker-gray": "#b0b0b0",
                 // "tnc-signature": "#caec46",
                 "tnc-signature": "#d7fc68",
+                "tnc-blue": "#2265F2",
+                "tnc-light-blue": "#E8F1FE",
                 "tnc-orange": "#f36740",
-                "tnc-light-orange": "#f8a088",
+                "tnc-light-orange": "#F9E1D6",
                 "tnc-black": "#212121",
                 background: "var(--background)",
                 foreground: "var(--foreground)",

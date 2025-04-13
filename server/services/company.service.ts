@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import mongoose from "mongoose";
 import CompanyProblemLookup from "../models/CompanyProblemLookup";
-import CompanyTag from "../models/CompanyTag.model";
+import CompanyTag from "../models/Company.model";
 
 export const addToCompanyProblemLookup = async (
   companyTags: string[],

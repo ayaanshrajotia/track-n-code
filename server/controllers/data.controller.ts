@@ -1,6 +1,6 @@
 import Tag from "@/server/models/Tag.model";
 import { NextRequest, NextResponse } from "next/server";
-import CompanyTag from "../models/CompanyTag.model";
+import CompanyTag from "../models/Company.model";
 import Inventory from "../models/Inventory.model";
 
 export const getTCIData = async (req: NextRequest) => {

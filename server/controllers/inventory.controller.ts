@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import Inventory from "@/server/models/Inventory.model";
+import Problem from "@/server/models/Problem.model";
 import { v4 as uuidv4 } from "uuid";
+import mongoose from "mongoose";
 
 export const addInventoryHandler = async (req: NextRequest) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -71,7 +73,11 @@ export const addInventoryHandler = async (req: NextRequest) => {
 export const editInventoryHandler = async (req: NextRequest) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const user: any = req.user;
+  // transaction
+
+  const session = await mongoose.startSession();
   try {
+    session.startTransaction();
     const data = await req.json();
     console.log(data);
     if (!data.inventory_id || data.inventory_id === "") {
@@ -91,9 +97,9 @@ export const editInventoryHandler = async (req: NextRequest) => {
       user_id: user._id,
     });
 
-    console.log(inventory);
-
     if (!inventory) {
+      session.abortTransaction();
+      session.endSession();
       return NextResponse.json(
         {
           success: false,
@@ -114,9 +120,24 @@ export const editInventoryHandler = async (req: NextRequest) => {
 
     await inventory.save();
 
+    // also update the inventory name in all the problems that are using this inventory_name
+    await Problem.updateMany(
+      { user_id: user._id, "inventories.inventory_id": inventory._id },
+      {
+        $set: {
+          "inventories.$[elem].inventory_name": data.inventory_name,
+        },
+      },
+      {
+        arrayFilters: [{ "elem.inventory_id": inventory._id }],
+      }
+    );
+
     inventory.user_id = undefined;
     inventory.__v = undefined;
 
+    await session.commitTransaction();
+    await session.endSession();
     return NextResponse.json({
       success: true,
       result: inventory,
@@ -125,6 +146,8 @@ export const editInventoryHandler = async (req: NextRequest) => {
     });
   } catch (error) {
     console.error("Error in editDashboardHandler: ", error);
+    session.abortTransaction();
+    session.endSession();
     return NextResponse.json(
       {
         success: false,
@@ -141,8 +164,30 @@ export const getAllInventoryHandler = async (req: NextRequest) => {
   const user: any = req.user;
 
   try {
-    const inventories = await Inventory.find({ user_id: user._id }).select(
+    let inventories = await Inventory.find({ user_id: user._id }).select(
       "-user_id -__v"
+    );
+
+    // also for each inventory also calculate the count of number of problems inside tht inventory
+
+    inventories = inventories.map((inventory) => {
+      inventory.user_id = undefined;
+      inventory.__v = undefined;
+      return {
+        ...inventory.toObject(),
+        problem_count: 0,
+      };
+    });
+
+    await Promise.all(
+      inventories.map(async (inventory) => {
+        const count = await Problem.countDocuments({
+          user_id: user._id,
+          inventories: { $elemMatch: { inventory_id: inventory._id } },
+        });
+
+        inventory.problem_count = count;
+      })
     );
 
     return NextResponse.json({
@@ -167,6 +212,9 @@ export const getAllInventoryHandler = async (req: NextRequest) => {
 export const deleteInventoryHandler = async (req: NextRequest) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const user: any = req.user;
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
   try {
     const data = await req.json();
     if (!data.inventory_id || data.inventory_id === "") {
@@ -187,6 +235,8 @@ export const deleteInventoryHandler = async (req: NextRequest) => {
     });
 
     if (!inventory) {
+      session.abortTransaction();
+      session.endSession();
       return NextResponse.json(
         {
           success: false,
@@ -197,6 +247,20 @@ export const deleteInventoryHandler = async (req: NextRequest) => {
       );
     }
 
+    // also delete the inventory from all the problems that are using this inventory_name
+    await Problem.updateMany(
+      { user_id: user._id },
+      {
+        $pull: {
+          inventories: {
+            inventory_id: inventory._id,
+          },
+        },
+      }
+    );
+
+    await session.commitTransaction();
+    await session.endSession();
     return NextResponse.json({
       success: true,
       result: null,
@@ -205,6 +269,8 @@ export const deleteInventoryHandler = async (req: NextRequest) => {
     });
   } catch (error) {
     console.error("Error in deleteInventoryHandler: ", error);
+    session.abortTransaction();
+    session.endSession();
     return NextResponse.json(
       {
         success: false,

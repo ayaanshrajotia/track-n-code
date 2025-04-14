@@ -8,33 +8,32 @@ import { NextRequest } from "next/server";
 
 export async function GET(
     req: NextRequest,
-    { params }: { params: { problem_id: string } }
+    context: { params: { problem_id: string } }
 ) {
     return auth_middleware(
-        (req: NextRequest) => getSingleProblemHandler(req, { params }),
+        (req: NextRequest) =>
+            getSingleProblemHandler(req, { params: context.params }),
         req
     );
 }
 
 export async function DELETE(
     req: NextRequest,
-    { params }: { params: { problem_id: string } }
+    context: { params: { problem_id: string } }
 ) {
     return auth_middleware(
-        (req: NextRequest) => deleteProblemHandler(req, { params }),
+        (req) => deleteProblemHandler(req, { params: context.params }),
         req
     );
 }
 
 export async function POST(
     req: NextRequest,
-    { params }: { params: { problem_id: string } }
+    context: { params: { problem_id: string } }
 ) {
     return auth_middleware(
         (req: NextRequest) =>
-            updateProblemHandler(req, {
-                params,
-            }),
+            updateProblemHandler(req, { params: context.params }),
         req
     );
 }

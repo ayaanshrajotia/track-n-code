@@ -16,10 +16,10 @@ export async function POST(req: NextRequest) {
 
 export async function DELETE(
     req: NextRequest,
-    { params }: { params: { problem_id: string } }
+    context: { params: { problem_id: string } }
 ) {
     return auth_middleware(
-        (req: NextRequest) => deleteProblemHandler(req, { params }),
+        (req) => deleteProblemHandler(req, { params: context.params }),
         req
     );
 }

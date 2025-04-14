@@ -16,7 +16,7 @@ import {
 } from "@/lib/features/problem/problemSlice";
 import { CompanyType, InventoryType, TagType } from "@/types/types";
 import toast, { Toaster } from "react-hot-toast";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 const platforms = [
     "Codeforces",
@@ -29,6 +29,7 @@ const platforms = [
 const difficulty = ["Easy", "Medium", "Hard"];
 
 export default function AddProblemPage() {
+    const router = useRouter();
     const dispatch = useAppDispatch();
 
     const params = useParams();
@@ -249,6 +250,7 @@ export default function AddProblemPage() {
         try {
             const res = await dispatch(updateProblem(problemDetails)).unwrap();
             toast.success(res.message); // show success message from backend
+            router.push(`/problems/${problemDetails.problem_id}`);
         } catch (error) {
             toast.error(
                 (typeof error === "string" && error) || "Something went wrong"

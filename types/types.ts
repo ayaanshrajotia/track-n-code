@@ -18,7 +18,7 @@ export type ProblemContainerType = {
 };
 
 export type ProblemType = {
-    problem_id?: string;
+    problem_id: string;
     platform_name: string;
     expanded: number | boolean;
     problem_name: string;

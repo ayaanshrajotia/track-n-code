@@ -4,7 +4,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
 
 type ProblemType = {
-    problem_id?: string;
+    problem_id: string;
     problem_title: string;
     platform_name: string;
     url: string;

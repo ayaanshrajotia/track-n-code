@@ -4,6 +4,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
 
 type ProblemType = {
+    problem_id: string;
     problem_title: string;
     platform_name: string;
     url: string;
@@ -23,7 +24,77 @@ export const addProblem = createAsyncThunk(
     async (data: ProblemType, { rejectWithValue }) => {
         try {
             console.log("data", data);
-            const response = await axiosInstance.post("/problem", data);
+            const response = await axiosInstance.post("/problems", data);
+            return response.data;
+        } catch (error) {
+            const axiosError = error as AxiosError; // Explicitly type error as AxiosError
+            return rejectWithValue(
+                (axiosError.response?.data as { error?: string })?.error ||
+                    "Something went wrong"
+            );
+        }
+    }
+);
+
+export const getAllProblems = createAsyncThunk(
+    "problem/getAllProblems",
+    async (_, { rejectWithValue }) => {
+        try {
+            const response = await axiosInstance.get("/problems");
+            return response.data;
+        } catch (error) {
+            const axiosError = error as AxiosError; // Explicitly type error as AxiosError
+            return rejectWithValue(
+                (axiosError.response?.data as { error?: string })?.error ||
+                    "Something went wrong"
+            );
+        }
+    }
+);
+
+export const getSingleProblem = createAsyncThunk(
+    "problem/getSingleProblem",
+    async (problem_id: string, { rejectWithValue }) => {
+        try {
+            console.log("problem_id", problem_id);
+            const response = await axiosInstance.get(`/problems/${problem_id}`);
+            return response.data;
+        } catch (error) {
+            const axiosError = error as AxiosError; // Explicitly type error as AxiosError
+            return rejectWithValue(
+                (axiosError.response?.data as { error?: string })?.error ||
+                    "Something went wrong"
+            );
+        }
+    }
+);
+
+export const updateProblem = createAsyncThunk(
+    "problem/updateProblem",
+    async (data: ProblemType, { rejectWithValue }) => {
+        try {
+            const response = await axiosInstance.post(
+                `/problems/${data.problem_id}`,
+                data
+            );
+            return response.data;
+        } catch (error) {
+            const axiosError = error as AxiosError; // Explicitly type error as AxiosError
+            return rejectWithValue(
+                (axiosError.response?.data as { error?: string })?.error ||
+                    "Something went wrong"
+            );
+        }
+    }
+);
+
+export const deleteProblem = createAsyncThunk(
+    "problem/deleteProblem",
+    async (problem_id: string, { rejectWithValue }) => {
+        try {
+            const response = await axiosInstance.delete(
+                `/problems/${problem_id}`
+            );
             return response.data;
         } catch (error) {
             const axiosError = error as AxiosError; // Explicitly type error as AxiosError
@@ -59,8 +130,11 @@ export const getAllTCI = createAsyncThunk(
 
 const initialState: {
     problem: ProblemType | null;
+    allProblems: ProblemType[] | null;
     loading: boolean;
     addLoading: boolean;
+    updateLoading: boolean;
+    deleteLoading: boolean;
     error: string | null;
     inventoriesFromServer: InventoryType[];
     companiesFromServer: CompanyType[];
@@ -68,7 +142,10 @@ const initialState: {
     TCILoading: boolean;
 } = {
     problem: null,
+    allProblems: [],
     addLoading: false,
+    updateLoading: false,
+    deleteLoading: false,
     loading: false,
     error: null,
     inventoriesFromServer: [],
@@ -83,6 +160,32 @@ const problemSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
+            .addCase(getAllProblems.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(getAllProblems.fulfilled, (state, action) => {
+                state.loading = false;
+                state.allProblems = action.payload.result;
+            })
+            .addCase(getAllProblems.rejected, (state, action) => {
+                state.loading = false;
+                console.log("Error:", action.payload);
+                state.error = action.payload as string;
+            })
+            .addCase(getSingleProblem.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(getSingleProblem.fulfilled, (state, action) => {
+                state.loading = false;
+                state.problem = action.payload.result;
+            })
+            .addCase(getSingleProblem.rejected, (state, action) => {
+                state.loading = false;
+                console.log("Error:", action.payload);
+                state.error = action.payload as string;
+            })
             .addCase(addProblem.pending, (state) => {
                 state.addLoading = true;
                 state.error = null;
@@ -96,6 +199,33 @@ const problemSlice = createSlice({
                 console.log("Error:", action.payload);
                 state.error = action.payload as string;
             })
+            .addCase(updateProblem.pending, (state) => {
+                state.updateLoading = true;
+                state.error = null;
+            })
+            .addCase(updateProblem.fulfilled, (state, action) => {
+                state.updateLoading = false;
+                state.problem = action.payload;
+            })
+            .addCase(updateProblem.rejected, (state, action) => {
+                state.updateLoading = false;
+                console.log("Error:", action.payload);
+                state.error = action.payload as string;
+            })
+            .addCase(deleteProblem.pending, (state) => {
+                state.deleteLoading = true;
+                state.error = null;
+            })
+            .addCase(deleteProblem.fulfilled, (state) => {
+                state.deleteLoading = false;
+                // state.problem = null;
+            })
+            .addCase(deleteProblem.rejected, (state, action) => {
+                state.deleteLoading = false;
+                console.log("Error:", action.payload);
+                state.error = action.payload as string;
+            })
+
             .addCase(getAllTCI.pending, (state) => {
                 state.error = null;
                 state.TCILoading = true;

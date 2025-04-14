@@ -1,36 +1,44 @@
 export type ProblemContainerType = {
-    id: number;
+    problem_id: string;
+    platform_name: string;
     expanded: number | boolean;
     setExpanded: React.Dispatch<React.SetStateAction<number | boolean>>;
-    title: string;
+    problem_name: string;
     difficulty: string;
-    link: string;
-    companies: string[];
-    timeComplexity: string;
-    spaceComplexity: string;
-    platform: string;
-    topic: string[];
-    slug: string;
+    url: string;
+    companies: CompanyType[];
+    tags: TagType[];
+    resources: string[];
+    time_complexity: string;
+    space_complexity: string;
+    inventories?: InventoryType[];
+    notes?: string;
+    is_revision?: boolean;
+    idx?: number;
 };
 
-export type Problem = {
-    id: number;
-    title: string;
-    slug: string;
+export type ProblemType = {
+    problem_id: string;
+    platform_name: string;
+    expanded: number | boolean;
+    problem_name: string;
     difficulty: string;
-    link: string;
-    companies: string[];
-    timeComplexity: string;
-    spaceComplexity: string;
-    platform: string;
-    topic: string[];
+    url: string;
+    companies: CompanyType[];
+    tags: TagType[];
+    resources: string[];
+    time_complexity: string;
+    space_complexity: string;
+    inventories?: InventoryType[];
+    notes?: string;
+    is_revision?: boolean;
 };
 
 export type InventoryType = {
     inventory_id: string;
     inventory_name: string;
     inventory_desc?: string;
-    problemCount?: number;
+    problem_count: number;
     createdAt?: Date;
 };
 

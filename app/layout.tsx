@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import StoreProvider from "./StoreProvider";
+import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
     title: "Track n Code",
@@ -16,6 +17,7 @@ export default function RootLayout({
         <html lang="en">
             <body className={`relative min-h-screen h-full w-full`}>
                 <StoreProvider>{children}</StoreProvider>
+                <Toaster />
             </body>
         </html>
     );

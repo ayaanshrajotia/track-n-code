@@ -1,5 +1,5 @@
 import axiosInstance from "@/app/utils/axios";
-import { Problem, Rating } from "@/types/types";
+import { ProblemType, Rating } from "@/types/types";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
 
@@ -51,7 +51,7 @@ const initialState: {
     easy_questions: number;
     medium_questions: number;
     hard_questions: number;
-    recent_questions: Problem[];
+    recent_questions: ProblemType[];
     loading: boolean;
     editLoading: boolean;
     error: string | null;

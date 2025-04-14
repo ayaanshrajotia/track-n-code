@@ -1,10 +1,7 @@
 "use client";
-
 import { FilterOption } from "@/app/components/FilterOption";
 import Header from "@/app/components/Header";
-import { ProblemContainer } from "@/app/components/containers/ProblemContainer";
 import { SortOption } from "@/app/components/SortOption";
-import { problems } from "@/app/utils/utils";
 import { SearchIcon } from "lucide-react";
 import { useState } from "react";
 import Link from "next/link";
@@ -54,7 +51,7 @@ const sortOptions = [
 ];
 
 export default function Problems() {
-    const [expanded, setExpanded] = useState<number | boolean>(-1);
+    // const [expanded, setExpanded] = useState<number | boolean>(-1);
     const [isFilterOpen, setIsFilterOpen] = useState<number | boolean>(0);
 
     // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -96,23 +93,23 @@ export default function Problems() {
                 </div>
                 <div className="flex gap-6 justify-between">
                     <div className="w-[calc(100%-300px)] flex flex-col gap-3">
-                        {problems.map((problem) => (
-                            <ProblemContainer
-                                key={problem.id}
-                                id={problem.id}
-                                expanded={expanded}
-                                setExpanded={setExpanded}
-                                title={problem.title}
-                                difficulty={problem.difficulty}
-                                link={problem.link}
-                                companies={problem.companies}
-                                timeComplexity={problem.timeComplexity}
-                                spaceComplexity={problem.spaceComplexity}
-                                platform={problem.platform}
-                                topic={problem.topic}
-                                slug={problem.slug}
-                            />
-                        ))}
+                        {/* {problems.map((problem) => (
+                            // <ProblemContainer
+                            //     key={problem.id}
+                            //     id={problem.id}
+                            //     expanded={expanded}
+                            //     setExpanded={setExpanded}
+                            //     title={problem.title}
+                            //     difficulty={problem.difficulty}
+                            //     link={problem.link}
+                            //     companies={problem.companies}
+                            //     timeComplexity={problem.timeComplexity}
+                            //     spaceComplexity={problem.spaceComplexity}
+                            //     platform={problem.platform}
+                            //     topic={problem.topic}
+                            //     slug={problem.slug}
+                            // />
+                        ))} */}
                     </div>
                     <div className="max-w-[300px] w-full flex flex-col gap-4">
                         <div

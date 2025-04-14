@@ -2,7 +2,7 @@
 
 import Header from "@/app/components/Header";
 import { BentoGrid, BentoGridItem } from "@/app/components/ui/bento-grid";
-import { ChevronDownCircle, Plus, Router, SearchIcon, X } from "lucide-react";
+import { ChevronDownCircle, Plus, SearchIcon, X } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import React, { useEffect, useState } from "react";
 import Linkify from "linkify-react";
@@ -34,6 +34,7 @@ export default function AddProblemPage() {
     } = useAppSelector((state) => state.problem);
 
     const [problemDetails, setProblemDetails] = useState({
+        problem_id: "",
         problem_title: "",
         platform_name: "Leetcode",
         url: "",

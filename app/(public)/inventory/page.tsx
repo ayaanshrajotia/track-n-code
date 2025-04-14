@@ -20,6 +20,8 @@ export default function Inventory() {
         (state) => state.inventory
     );
 
+    console.log(inventories)
+
     const [inventoryDetails, setInventoryDetails] = useState({
         inventory_name: "",
         inventory_desc: "",
@@ -71,7 +73,7 @@ export default function Inventory() {
                                 inventory_id={inventory.inventory_id}
                                 inventory_name={inventory.inventory_name}
                                 inventory_desc={inventory.inventory_desc}
-                                problemCount={inventory.problemCount}
+                                problem_count={inventory.problem_count}
                                 createdAt={inventory.createdAt}
                             />
                         ))}

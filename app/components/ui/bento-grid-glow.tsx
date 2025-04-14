@@ -1,4 +1,5 @@
 import { cn } from "@/app/utils/utils";
+import { GlowingEffect } from "./glowing-effect";
 
 export const BentoGrid = ({
     className,
@@ -14,7 +15,7 @@ export const BentoGrid = ({
     );
 };
 
-export const BentoGridItem = ({
+export const BentoGridItemGlow = ({
     className,
     children,
 }: {
@@ -28,6 +29,14 @@ export const BentoGridItem = ({
                 className
             )}
         >
+            <GlowingEffect
+                borderWidth={1.7}
+                spread={40}
+                glow={true}
+                disabled={false}
+                proximity={64}
+                inactiveZone={0.01}
+            />
             {children}
         </div>
     );

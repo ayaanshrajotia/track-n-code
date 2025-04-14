@@ -2,29 +2,30 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDownCircle, ExternalLink } from "lucide-react";
 import { BentoGrid, BentoGridItem } from "../ui/bento-grid";
-import InfiniteScroll from "../InfiniteScroll";
 import { ProblemContainerType } from "@/types/types";
 
 export const ProblemContainer = ({
-    id,
+    problem_id,
+    problem_name,
     expanded,
+    // inventories,
+    // is_revision,
     setExpanded,
-    title,
     difficulty,
-    link,
-    timeComplexity,
-    spaceComplexity,
-    platform,
-    // topic,
-    slug,
+    url,
+    time_complexity,
+    space_complexity,
+    platform_name,
+    tags,
+    idx,
 }: ProblemContainerType) => {
-    const isOpen = id === expanded;
+    const isOpen = idx === expanded;
     return (
         <div className="w-full">
             {/* Outer div */}
             <motion.header
                 initial={false}
-                onClick={() => setExpanded(isOpen ? false : id)}
+                onClick={() => setExpanded(isOpen ? false : idx ?? false)}
                 className={`relative container-shadow rounded-[24px] p-4 py-5 cursor-pointer border-[1.5px] transition-all duration-300 hover:bg-tnc-gray ${
                     isOpen
                         ? "border-tnc-dark-gray border-[1.5px] bg-tnc-gray"
@@ -35,9 +36,9 @@ export const ProblemContainer = ({
                     <div className="flex-1">
                         <Link
                             className="font-semibold hover:bg-tnc-orange hover:text-white transition-all rounded-[24px] py-1 hover:px-4"
-                            href={`/problems/${slug}`}
+                            href={`/problems/${problem_id}` || "#"}
                         >
-                            {title}
+                            {problem_name}
                         </Link>
                     </div>
                     {/* <span
@@ -84,46 +85,56 @@ export const ProblemContainer = ({
                         >
                             <BentoGrid className="grid-cols-4">
                                 <BentoGridItem className="flex flex-col bg-tnc-black text-white">
-                                    <h1 className="font-medium mb-2">
+                                    <h1 className="font-medium mb-2 text-sm">
                                         Platform
                                     </h1>
-                                    <span className="text-3xl font-semibold flex items-baseline gap-3">
-                                        {platform}{" "}
+                                    <span className="text-2xl font-semibold flex items-baseline gap-3">
+                                        {platform_name}{" "}
                                         <ExternalLink
                                             className="w-5 h-5 hover:stroke-[2.5px] transition-all"
-                                            href={link}
+                                            href={url || "#"}
+                                            target="_blank"
                                         />
                                     </span>
                                 </BentoGridItem>
                                 <BentoGridItem className="flex flex-col bg-tnc-orange text-white">
-                                    <h1 className="font-medium mb-2">
+                                    <h1 className="font-medium mb-2 text-sm">
                                         Difficulty
                                     </h1>
-                                    <span className="text-3xl font-semibold flex items-baseline gap-3">
+                                    <span className="text-2xl font-semibold flex items-baseline gap-3">
                                         {difficulty}{" "}
                                     </span>
                                 </BentoGridItem>
                                 <BentoGridItem className="flex flex-col border">
-                                    <h1 className="font-medium mb-2">
+                                    <h1 className="font-medium mb-2 text-sm">
                                         Time Complexity
                                     </h1>
-                                    <span className="text-3xl font-semibold">
-                                        {timeComplexity}
+                                    <span className="text-2xl font-semibold">
+                                        O{time_complexity}
                                     </span>
                                 </BentoGridItem>
                                 <BentoGridItem className="flex flex-col border">
-                                    <h1 className="font-medium mb-2">
+                                    <h1 className="font-medium mb-2 text-sm">
                                         Space Complexity
                                     </h1>
-                                    <span className="text-3xl font-semibold">
-                                        {spaceComplexity}
+                                    <span className="text-2xl font-semibold">
+                                        O{space_complexity}
                                     </span>
                                 </BentoGridItem>
                                 <BentoGridItem className="col-span-4 border flex flex-col">
-                                    <h1 className="font-medium mb-3">
-                                        Companies
+                                    <h1 className="font-medium mb-3 text-sm">
+                                        Tags
                                     </h1>
-                                    <InfiniteScroll className="w-[850px]" />
+                                    <div className="flex flex-wrap gap-3">
+                                        {tags?.map((tag) => (
+                                            <span
+                                                key={tag.tag_id}
+                                                className="bg-tnc-black text-white p-1.5 px-4 rounded-full text-sm cursor-pointer  hover:bg-[#f46b45] transition-all"
+                                            >
+                                                {tag.tag_name}
+                                            </span>
+                                        ))}
+                                    </div>
                                 </BentoGridItem>
                             </BentoGrid>
                         </div>
@@ -133,4 +144,3 @@ export const ProblemContainer = ({
         </div>
     );
 };
-

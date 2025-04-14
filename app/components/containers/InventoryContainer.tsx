@@ -17,7 +17,7 @@ export default function InventoryContainer({
     inventory_id,
     inventory_name,
     inventory_desc,
-    problemCount,
+    problem_count,
     createdAt,
 }: InventoryType) {
     const dispatch = useAppDispatch();
@@ -84,7 +84,7 @@ export default function InventoryContainer({
                             Problems
                         </span>
                         <span className="text-[40px] font-medium leading-none">
-                            {problemCount || 0}
+                            {problem_count || 0}
                         </span>
                     </div>
 

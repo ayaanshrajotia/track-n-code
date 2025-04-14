@@ -1,16 +1,22 @@
 "use client";
-
 import Header from "@/app/components/Header";
-import { BentoGrid, BentoGridItem } from "@/app/components/ui/bento-grid";
-import { ChevronDownCircle, Plus, Router, SearchIcon, X } from "lucide-react";
+import {
+    BentoGrid,
+    BentoGridItemGlow,
+} from "@/app/components/ui/bento-grid-glow";
+import { ChevronDownCircle, Plus, SearchIcon, X } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import React, { useEffect, useState } from "react";
 import Linkify from "linkify-react";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { addProblem, getAllTCI } from "@/lib/features/problem/problemSlice";
+import {
+    getAllTCI,
+    getSingleProblem,
+    updateProblem,
+} from "@/lib/features/problem/problemSlice";
 import { CompanyType, InventoryType, TagType } from "@/types/types";
 import toast, { Toaster } from "react-hot-toast";
-import { useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 
 const platforms = [
     "Codeforces",
@@ -24,7 +30,13 @@ const difficulty = ["Easy", "Medium", "Hard"];
 
 export default function AddProblemPage() {
     const dispatch = useAppDispatch();
-    const router = useRouter();
+
+    const params = useParams();
+    const problem_id = params.problem_id;
+
+    const { problem } = useAppSelector((state) => state.problem);
+
+    console.log(problem);
 
     const {
         companiesFromServer,
@@ -34,18 +46,19 @@ export default function AddProblemPage() {
     } = useAppSelector((state) => state.problem);
 
     const [problemDetails, setProblemDetails] = useState({
-        problem_title: "",
-        platform_name: "Leetcode",
-        url: "",
-        difficulty: "Easy",
-        notes: "",
-        tags: [] as TagType[],
-        inventories: [] as InventoryType[],
-        resources: [] as string[],
-        companies: [] as CompanyType[],
-        time_complexity: "",
-        space_complexity: "",
-        is_revision: false,
+        problem_id: problem?.problem_id || "",
+        problem_title: problem?.problem_title || "",
+        platform_name: problem?.platform_name || "",
+        url: problem?.url || "",
+        difficulty: problem?.difficulty || "",
+        notes: problem?.notes || "",
+        tags: problem?.tags || ([] as TagType[]),
+        inventories: problem?.inventories || ([] as InventoryType[]),
+        companies: problem?.companies || ([] as CompanyType[]),
+        resources: problem?.resources || ([] as string[]),
+        time_complexity: problem?.time_complexity || "",
+        space_complexity: problem?.space_complexity || "",
+        is_revision: problem?.is_revision || false,
     });
 
     // Expanded states for dropdowns
@@ -234,9 +247,8 @@ export default function AddProblemPage() {
 
     const handleSubmit = async () => {
         try {
-            const res = await dispatch(addProblem(problemDetails)).unwrap();
+            const res = await dispatch(updateProblem(problemDetails)).unwrap();
             toast.success(res.message); // show success message from backend
-            router.push("/problems");
         } catch (error) {
             toast.error(
                 (typeof error === "string" && error) || "Something went wrong"
@@ -249,10 +261,36 @@ export default function AddProblemPage() {
         dispatch(getAllTCI());
     }, [dispatch]);
 
+    useEffect(() => {
+        if (problem_id) {
+            dispatch(getSingleProblem(problem_id as string));
+        }
+    }, [dispatch, problem_id]);
+
+    useEffect(() => {
+        if (problem) {
+            setProblemDetails({
+                problem_id: problem.problem_id || "",
+                problem_title: problem.problem_title || "",
+                platform_name: problem.platform_name || "",
+                url: problem.url || "",
+                difficulty: problem.difficulty || "",
+                notes: problem.notes || "",
+                tags: problem.tags || [],
+                inventories: problem.inventories || [],
+                companies: problem.companies || [],
+                resources: problem.resources || [],
+                time_complexity: problem.time_complexity || "",
+                space_complexity: problem.space_complexity || "",
+                is_revision: problem.is_revision || false,
+            });
+        }
+    }, [problem]);
+
     return (
         <div>
             {/* Header Section */}
-            <Header>Add Problem</Header>
+            <Header>Edit Problem</Header>
             <div className="flex flex-col gap-4">
                 <button
                     className={`text-white gradient rounded-[24px] flex justify-between items-center px-4 py-3 cursor-pointer relative overflow-hidden group w-fit self-end transition-all ${
@@ -275,7 +313,7 @@ export default function AddProblemPage() {
                 </button>
                 <BentoGrid className="grid-cols-12 gap-5">
                     {/* Problem Name Input */}
-                    <BentoGridItem className="col-span-6 flex flex-col justify-between border">
+                    <BentoGridItemGlow className="col-span-6 flex flex-col justify-between border">
                         <h1 className=" text-stone-700 font-medium">
                             Problem Name
                         </h1>
@@ -291,10 +329,10 @@ export default function AddProblemPage() {
                                 })
                             }
                         />
-                    </BentoGridItem>
+                    </BentoGridItemGlow>
 
                     {/* Problem URL Input */}
-                    <BentoGridItem className="col-span-6 flex flex-col gap-3 justify-between border">
+                    <BentoGridItemGlow className="col-span-6 flex flex-col gap-3 justify-between border">
                         <h1 className=" font-medium">Problem Link</h1>
                         <input
                             type="text"
@@ -308,10 +346,10 @@ export default function AddProblemPage() {
                             }
                             className="w-full text-lg bg-transparent font-medium outline-none placeholder:font-normal"
                         />
-                    </BentoGridItem>
+                    </BentoGridItemGlow>
 
                     {/* Platform Dropdown */}
-                    <BentoGridItem className="col-span-6 flex flex-col gap-2.5 bg-tnc-gray border">
+                    <BentoGridItemGlow className="col-span-6 flex flex-col gap-2.5 bg-tnc-gray border">
                         <h1 className="font-medium ">Platform</h1>
                         <div className="w-full">
                             {/* Dropdown Header */}
@@ -390,10 +428,10 @@ export default function AddProblemPage() {
                                 )}
                             </AnimatePresence>
                         </div>
-                    </BentoGridItem>
+                    </BentoGridItemGlow>
 
                     {/* Difficulty Dropdown */}
-                    <BentoGridItem className="col-span-6 flex flex-col gap-2.5 border">
+                    <BentoGridItemGlow className="col-span-6 flex flex-col gap-2.5 border">
                         <h1 className="font-medium ">Difficulty</h1>
                         <div className="w-full">
                             {/* Dropdown Header */}
@@ -471,17 +509,17 @@ export default function AddProblemPage() {
                                 )}
                             </AnimatePresence>
                         </div>
-                    </BentoGridItem>
+                    </BentoGridItemGlow>
 
                     {/* Time Complexity Input */}
-                    <BentoGridItem className="col-span-6 flex flex-col gap-3 border">
+                    <BentoGridItemGlow className="col-span-6 flex flex-col gap-3 border">
                         <h1 className="font-medium ">Time Complexity</h1>
                         <span className="text-3xl font-semibold">
                             O
                             <input
                                 type="text"
                                 className="bg-transparent outline-none"
-                                value={`(${problemDetails.time_complexity.slice(
+                                value={`(${problemDetails?.time_complexity.slice(
                                     1,
                                     -1
                                 )})`}
@@ -493,17 +531,17 @@ export default function AddProblemPage() {
                                 }
                             />
                         </span>
-                    </BentoGridItem>
+                    </BentoGridItemGlow>
 
                     {/* Space Complexity Input */}
-                    <BentoGridItem className="col-span-6 flex flex-col gap-3 border">
+                    <BentoGridItemGlow className="col-span-6 flex flex-col gap-3 border">
                         <h1 className="font-medium ">Space Complexity</h1>
                         <span className="text-3xl font-semibold">
                             O
                             <input
                                 type="text"
                                 className="bg-transparent outline-none"
-                                value={`(${problemDetails.space_complexity.slice(
+                                value={`(${problemDetails?.space_complexity.slice(
                                     1,
                                     -1
                                 )})`}
@@ -515,10 +553,10 @@ export default function AddProblemPage() {
                                 }
                             />
                         </span>
-                    </BentoGridItem>
+                    </BentoGridItemGlow>
 
                     {/* Notes Section */}
-                    <BentoGridItem className="col-span-12 border flex flex-col gap-3">
+                    <BentoGridItemGlow className="col-span-12 border flex flex-col gap-3">
                         <h1 className="font-medium ">Notes</h1>
                         <textarea
                             className="bg-transparent text-lg outline-none"
@@ -531,10 +569,10 @@ export default function AddProblemPage() {
                                 })
                             }
                         />
-                    </BentoGridItem>
+                    </BentoGridItemGlow>
 
                     {/* Add Inventory Section */}
-                    <BentoGridItem className="col-span-12 border flex flex-col gap-3">
+                    <BentoGridItemGlow className="col-span-12 border flex flex-col gap-3">
                         <h1 className="font-semibold  opacity-80">
                             Inventories
                         </h1>
@@ -636,10 +674,10 @@ export default function AddProblemPage() {
                                 )}
                             </AnimatePresence>
                         </div>
-                    </BentoGridItem>
+                    </BentoGridItemGlow>
 
                     {/* Tags Section */}
-                    <BentoGridItem className="col-span-12 border flex flex-col gap-3">
+                    <BentoGridItemGlow className="col-span-12 border flex flex-col gap-3">
                         <h1 className="font-semibold  opacity-80">Tags</h1>
                         {problemDetails?.tags.length > 0 && (
                             <div className="flex flex-wrap gap-2">
@@ -727,10 +765,10 @@ export default function AddProblemPage() {
                                 )}
                             </AnimatePresence>
                         </div>
-                    </BentoGridItem>
+                    </BentoGridItemGlow>
 
                     {/* Companies Section */}
-                    <BentoGridItem className="col-span-12 border flex flex-col gap-3 focus:border-black">
+                    <BentoGridItemGlow className="col-span-12 border flex flex-col gap-3 focus:border-black">
                         <h1 className="font-semibold opacity-80">Companies</h1>
                         {problemDetails?.companies.length > 0 && (
                             <div className="flex flex-wrap gap-2">
@@ -827,10 +865,10 @@ export default function AddProblemPage() {
                                 )}
                             </AnimatePresence>
                         </div>
-                    </BentoGridItem>
+                    </BentoGridItemGlow>
 
                     {/* Resources Section */}
-                    <BentoGridItem className="col-span-12 border flex flex-col gap-3">
+                    <BentoGridItemGlow className="col-span-12 border flex flex-col gap-3">
                         <h1 className="font-medium ">Resources</h1>
                         <div className="flex rounded-[16px] gap-4">
                             <input
@@ -857,7 +895,7 @@ export default function AddProblemPage() {
                                 {problemDetails.resources.map((resource) => (
                                     <div
                                         key={resource}
-                                        className="bg-white border pl-3 pr-2 py-2 rounded-[14px] flex items-center justify-between"
+                                        className="mb-2 shadow-sm bg-white border pl-3 pr-2 py-2 rounded-[14px] flex items-center justify-between"
                                     >
                                         <Linkify
                                             options={{
@@ -879,7 +917,7 @@ export default function AddProblemPage() {
                                 ))}
                             </div>
                         )}
-                    </BentoGridItem>
+                    </BentoGridItemGlow>
                 </BentoGrid>
                 <button
                     className="cursor-pointer flex items-center gap-2 bg-tnc-orange text-white rounded-[24px] px-10 py-3 w-fit mx-auto mt-8"
